@@ -22,8 +22,25 @@
   --head:#13294b; --head-ink:#ffffff; --head-muted:#a9b7ca;
   --blue:#1f5fd6; --blue-d:#174ab0; --blue-soft:#e9f0fd;
   --green:#1d7a45; --green-soft:#e3f3e9; --amber:#875800; --amber-soft:#fcf1da; --red:#b3261e; --red-soft:#fcebea;
+  --field:#ffffff; --field-line:#c3cad3; --thead:#f8f9fb; --on-blue:#ffffff; --green-line:#b7dcc5; --red-line:#e3b4b0; --step:#f3f5f8; --step-line:#dde2e8; --chg:#fff7e3; --toast:#263445; --toast-ink:#ffffff; --nav-on:#6f9cf0; --link-on-head:#cfe0ff;
   --f:"Source Sans 3","Segoe UI",system-ui,-apple-system,Arial,sans-serif;
   color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not(.light):not([data-theme="light"]){
+  --page:#0e131a; --card:#161d26; --ink:#e3e8ee; --muted:#95a2b0; --line:#2a3542; --line-2:#212a35; --hover:#1c2530;
+  --head:#0a1422; --head-ink:#ffffff; --head-muted:#93a4bb;
+  --blue:#5b9bff; --blue-d:#7aaeff; --blue-soft:#1a2b45;
+  --green:#5fd39b; --green-soft:#11301f; --amber:#f0b84e; --amber-soft:#33260c; --red:#ff8a80; --red-soft:#3b1714;
+  --field:#0f151c; --field-line:#3a4655; --thead:#1b232d; --on-blue:#08121f; --green-line:#24553a; --red-line:#6b2b27; --step:#1f2833; --step-line:#2f3a47; --chg:#30260f; --toast:#e3e8ee; --toast-ink:#0e131a; --nav-on:#7aaeff; --link-on-head:#cfe0ff;
+  color-scheme:dark;
+}}
+:root.dark,:root[data-theme="dark"]:not(.light){
+  --page:#0e131a; --card:#161d26; --ink:#e3e8ee; --muted:#95a2b0; --line:#2a3542; --line-2:#212a35; --hover:#1c2530;
+  --head:#0a1422; --head-ink:#ffffff; --head-muted:#93a4bb;
+  --blue:#5b9bff; --blue-d:#7aaeff; --blue-soft:#1a2b45;
+  --green:#5fd39b; --green-soft:#11301f; --amber:#f0b84e; --amber-soft:#33260c; --red:#ff8a80; --red-soft:#3b1714;
+  --field:#0f151c; --field-line:#3a4655; --thead:#1b232d; --on-blue:#08121f; --green-line:#24553a; --red-line:#6b2b27; --step:#1f2833; --step-line:#2f3a47; --chg:#30260f; --toast:#e3e8ee; --toast-ink:#0e131a; --nav-on:#7aaeff; --link-on-head:#cfe0ff;
+  color-scheme:dark;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--page);color:var(--ink);font:15px/1.45 var(--f)}
@@ -42,9 +59,16 @@ h2{font-size:15px;font-weight:700;margin:0}
 .nav{display:flex;gap:2px;flex:1;min-width:0}
 .nav a{color:var(--head-muted);text-decoration:none;padding:15px 12px 13px;font-weight:600;border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:6px}
 .nav a:hover{color:var(--head-ink)}
-.nav a[aria-current="page"]{color:var(--head-ink);border-color:#6f9cf0}
-.nav a:focus-visible{outline:2px solid #6f9cf0;outline-offset:-2px}
+.nav a[aria-current="page"]{color:var(--head-ink);border-color:var(--nav-on)}
+.nav a:focus-visible{outline:2px solid var(--nav-on);outline-offset:-2px}
 .cnt{background:#f0b33c;color:#2b1d00;border-radius:9px;font-size:11px;font-weight:700;padding:1px 6px;line-height:16px}
+.themebtn{width:34px;height:34px;border-radius:4px;border:1px solid rgba(255,255,255,.22);background:transparent;color:var(--head-ink);display:grid;place-items:center;flex:none}
+.themebtn:hover{background:rgba(255,255,255,.08)}
+.themebtn:focus-visible{outline:2px solid var(--nav-on);outline-offset:2px}
+.themebtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.themebtn .sun{display:none}
+:root.dark .themebtn .sun{display:block}:root.dark .themebtn .moon{display:none}
+@media (max-width:640px){.themebtn{width:32px;height:32px}}
 .sync{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--head-muted);white-space:nowrap}
 .sync i{width:8px;height:8px;border-radius:50%;background:var(--head-muted)}
 .sync[data-m="cloud"] i{background:#4cc27f}
@@ -58,7 +82,110 @@ h2{font-size:15px;font-weight:700;margin:0}
   .sync span{display:none}
 }
 
+@media (max-width:640px){.nav a{font-size:13.5px;padding:10px 2px 9px;gap:4px}}
+@media (max-width:360px){.nav a{font-size:12.5px}}
 main .wrap{padding-block:20px 48px}
+/* uke/måned */
+.navrow{display:flex;align-items:center;gap:8px;flex-basis:100%;min-width:0}
+.navrow .wk{flex:0 1 auto;min-width:0}
+.seg2{display:inline-flex;border:1px solid var(--field-line);border-radius:4px;overflow:hidden;flex:none}
+.seg2 button{border:0;background:var(--field);color:var(--ink);padding:5px 14px;font-weight:600;font-size:14px;min-height:32px}
+.seg2 button+button{border-left:1px solid var(--field-line)}
+.seg2 button.on{background:var(--blue);color:var(--on-blue)}
+.seg2 button:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.msum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line)}
+.msum div{padding:10px 16px;border-left:1px solid var(--line-2);min-width:0}
+.msum div:first-child{border-left:0}
+.msum span{display:block;font-size:12.5px;color:var(--muted)}
+.msum b{font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.msum b small{font-size:12.5px;font-weight:400;color:var(--muted);margin-left:2px}
+@media (max-width:520px){.msum{grid-template-columns:1fr 1fr}.msum div:nth-child(3){border-left:0}.msum div:nth-child(n+3){border-top:1px solid var(--line-2)}}
+.mact{padding:8px 16px;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;padding:12px 16px 8px}
+.cal .dh{font-size:11.5px;font-weight:600;color:var(--muted);text-align:center}
+.cday{all:unset;box-sizing:border-box;min-height:48px;border:1px solid var(--line);border-radius:4px;padding:3px 5px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;background:var(--card);min-width:0}
+.cday .n{font-size:12px;color:var(--muted)}
+.cday b{font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.cday:hover{border-color:var(--blue)}
+.cday:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.cday.open{background:var(--amber-soft)}
+.cday.open b{color:var(--amber)}
+.cday.ok{background:var(--green-soft);border-color:var(--green-line)}
+.cday.ok b{color:var(--green)}
+.cday.today{box-shadow:inset 0 0 0 2px var(--blue)}
+.calkey{display:flex;gap:14px;flex-wrap:wrap;padding:0 16px 12px;font-size:12.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.calkey i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-2px;border:1px solid var(--line)}
+.wkhead{background:var(--thead);font-size:13px;font-weight:600;color:var(--muted);padding-block:6px}
+.wkhead .c-h{color:var(--ink)}
+@media (max-width:400px){.cday{min-height:42px;padding:2px 3px}.cday b{font-size:12px}.cal{gap:3px;padding-inline:10px}}
+/* kompetanse: avkryssing i skjema */
+.lvkey{font-size:12.5px;color:var(--muted);margin:0}
+.tcat{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:12px 0 2px}
+.tcat:first-child{margin-top:4px}
+.trow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--line-2)}
+.trow .tn{min-width:0;font-size:14.5px;line-height:1.3}
+.lv{display:inline-flex;border:1px solid var(--field-line);border-radius:4px;overflow:hidden;flex:none;background:var(--field)}
+.lv button{min-width:34px;height:32px;border:0;border-left:1px solid var(--field-line);background:transparent;color:var(--muted);font-weight:700;font-size:13px;padding:0}
+.lv button:first-child{border-left:0}
+.lv button.on{background:var(--blue);color:var(--on-blue)}
+.lv button:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+#f-tasks summary .muted{font-weight:400}
+.trow .tn{all:unset;cursor:pointer;min-width:0;font-size:14.5px;line-height:1.3;display:flex;gap:6px;align-items:flex-start}
+.trow .tn::after{content:"i";flex:none;width:16px;height:16px;border-radius:50%;border:1px solid var(--field-line);color:var(--muted);font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+.trow .tn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.tdesc{font-size:13px;color:var(--muted);padding:2px 0 8px;border-bottom:1px solid var(--line-2)}
+.tdesc b{color:var(--ink);font-weight:600}
+.cdesc{font-size:14px;line-height:1.5;margin:0}
+.cindep{margin:0;padding:9px 11px;border-radius:4px;background:var(--green-soft);font-size:13.5px}
+.cindep b{color:var(--green)}
+.lvexp{border:1px solid var(--line);border-radius:4px}
+.lvexp summary{cursor:pointer;padding:8px 11px;font-size:13.5px;font-weight:600;color:var(--blue)}
+.lvexp dl{margin:0;padding:0 11px 10px;display:grid;gap:6px;font-size:13.5px}
+.lvexp dt{font-weight:700}
+.lvexp dd{margin:0 0 2px;color:var(--muted)}
+.te-desc{grid-column:1/-1;min-height:56px;font-size:14px}
+.te-sel{grid-column:1/-1;font-size:14px}
+/* kompetanse: oversikt */
+.ctask{border-bottom:1px solid var(--line-2)}
+.ctask:last-child{border-bottom:0}
+.ctask-cat{padding:10px 16px 4px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--thead);border-bottom:1px solid var(--line-2)}
+.ctask-h{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:10px 16px;cursor:pointer}
+.ctask-h:hover{background:var(--hover)}
+.ctask-h:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.ctask-n{display:block;font-weight:600}
+.ctask-m{display:block;font-size:13px;color:var(--muted)}
+.ladder{display:flex;gap:3px;align-items:center}
+.ladder i{width:20px;height:9px;border-radius:2px;background:var(--line)}
+.ladder i.lg{background:var(--blue-soft);box-shadow:inset 0 0 0 1.5px var(--blue)}
+.ladder i.sg{background:var(--green)}
+.ladder b{font-size:12px;font-weight:700;color:var(--green);margin-left:6px;min-width:12px}
+.ctask-x{padding:2px 16px 14px;display:grid;gap:10px}
+.lvbars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.lvbars div{border:1px solid var(--line);border-radius:4px;padding:6px 8px;font-size:12.5px;color:var(--muted)}
+.lvbars b{display:block;font-size:17px;color:var(--ink);font-variant-numeric:tabular-nums}
+.lvsign{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+@media (max-width:520px){.lvsign,.lvbars{grid-template-columns:1fr 1fr}}
+.lvsign button{border:1px solid var(--field-line);background:var(--field);color:var(--ink);border-radius:4px;padding:8px 6px;font-size:13.5px;font-weight:600;min-height:44px;line-height:1.2}
+.lvsign button.sug{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
+.lvsign button.done{border-color:var(--green-line);background:var(--green-soft);color:var(--green);cursor:default}
+.lvsign button small{display:block;font-weight:400;font-size:11.5px;opacity:.85}
+.signed{display:grid;gap:6px}
+.signed div{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13.5px}
+.signed img{height:30px;max-width:110px;object-fit:contain;background:#fff;border-radius:3px;padding:1px 4px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);align-items:center}
+.legend i{display:inline-block;width:14px;height:8px;border-radius:2px;margin-right:4px;vertical-align:1px}
+/* erfaringssammendrag */
+.kvl{display:grid;grid-template-columns:130px minmax(0,1fr);gap:7px 14px;font-size:14px}
+.kvl dt{color:var(--muted)}
+.kvl dd{margin:0;min-width:0;overflow-wrap:anywhere}
+@media (max-width:480px){.kvl{grid-template-columns:1fr}.kvl dt{margin-top:4px;font-size:12.5px;font-weight:600}}
+.tip{margin:0;padding:9px 11px;border-radius:4px;background:var(--amber-soft);color:var(--amber);font-size:13.5px}
+/* rediger oppgaveliste */
+.tedit{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line-2)}
+.tedit.off input{opacity:.5;text-decoration:line-through}
+@media (max-width:520px){.tedit{grid-template-columns:1fr auto}.tedit .te-cat{grid-column:1}.tedit button{grid-row:1/3;grid-column:2}.tedit .te-desc,.tedit .te-sel{grid-column:1/-1}}
+#sv-cinfo{display:grid;gap:8px;font-size:14px}
+#sv-cinfo .warn{color:var(--amber)}
 .view{display:grid;gap:16px}
 .ph{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap}
 .ph .muted{font-size:14px}
@@ -85,7 +212,7 @@ main .wrap{padding-block:20px 48px}
 @media (max-width:640px){.frow{grid-template-columns:1fr 1fr}.frow .act-f{grid-column:1/-1;order:-1}.grid3{grid-template-columns:1fr 1fr}}
 .fld{display:grid;gap:4px;min-width:0}
 .fld>span{font-size:13px;font-weight:600;color:var(--ink)}
-input,select,textarea{width:100%;font:inherit;color:var(--ink);background:#fff;border:1px solid #c3cad3;border-radius:3px;padding:7px 9px;min-height:36px;min-width:0}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--field);border:1px solid var(--field-line);border-radius:3px;padding:7px 9px;min-height:36px;min-width:0}
 textarea{resize:vertical}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-soft)}
 #f-hours{text-align:right;font-variant-numeric:tabular-nums}
@@ -96,14 +223,14 @@ details.more[open] summary{margin-bottom:12px}
 
 /* buttons */
 button{font:inherit;cursor:pointer}
-.btn{border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:3px;padding:7px 16px;font-weight:600;min-height:36px}
+.btn{border:1px solid var(--blue);background:var(--blue);color:var(--on-blue);border-radius:3px;padding:7px 16px;font-weight:600;min-height:36px}
 .btn:hover{background:var(--blue-d);border-color:var(--blue-d)}
-.btn.alt{background:#fff;color:var(--ink);border-color:#c3cad3}
+.btn.alt{background:var(--field);color:var(--ink);border-color:var(--field-line)}
 .btn.alt:hover{background:var(--hover)}
 .btn.link{background:none;border-color:transparent;color:var(--blue);padding-inline:8px}
 .btn.link:hover{text-decoration:underline;background:none}
-.btn.danger{background:#fff;color:var(--red);border-color:#e3b4b0}
-.btn.armed{background:var(--red);border-color:var(--red);color:#fff}
+.btn.danger{background:var(--field);color:var(--red);border-color:var(--red-line)}
+.btn.armed{background:var(--red);border-color:var(--red);color:var(--card)}
 .btn.small{padding:4px 10px;min-height:30px;font-size:14px}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .btn:focus-visible,.tr:focus-visible,.iconbtn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
@@ -117,7 +244,7 @@ button{font:inherit;cursor:pointer}
 
 /* week */
 .weekbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.iconbtn{width:32px;height:32px;border:1px solid #c3cad3;background:#fff;border-radius:3px;display:grid;place-items:center;color:var(--ink);font-size:16px;line-height:1}
+.iconbtn{width:32px;height:32px;border:1px solid var(--field-line);background:var(--field);border-radius:3px;display:grid;place-items:center;color:var(--ink);font-size:16px;line-height:1}
 .iconbtn:hover{background:var(--hover)}
 .wk{font-weight:700;font-size:15px;margin:0 4px}
 .wk span{font-weight:400;color:var(--muted);margin-left:6px}
@@ -125,7 +252,7 @@ button{font:inherit;cursor:pointer}
 .wsum b{color:var(--ink);font-variant-numeric:tabular-nums}
 .tbl{display:grid}
 .tr{display:grid;grid-template-columns:118px minmax(0,1.3fr) minmax(0,1.2fr) minmax(0,1.6fr) 64px 96px;gap:12px;align-items:baseline;padding:9px 16px;border-bottom:1px solid var(--line-2)}
-.th{font-size:12.5px;font-weight:600;color:var(--muted);background:#f8f9fb;border-bottom:1px solid var(--line);padding-block:7px}
+.th{font-size:12.5px;font-weight:600;color:var(--muted);background:var(--thead);border-bottom:1px solid var(--line);padding-block:7px}
 .row{cursor:pointer}
 .row:hover{background:var(--hover)}
 .row.sel{background:var(--blue-soft)}
@@ -139,7 +266,7 @@ button{font:inherit;cursor:pointer}
 .c-note,.c-proj{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .c-proj{color:var(--muted)}
 .c-meta{display:none}
-.tfoot{font-weight:700;background:#f8f9fb;border-bottom:0}
+.tfoot{font-weight:700;background:var(--thead);border-bottom:0}
 @media (max-width:720px){
   .th{display:none}
   .tr{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"day h" "act st" "meta meta";gap:2px 12px}
@@ -155,30 +282,30 @@ button{font:inherit;cursor:pointer}
 .scroll{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line-2);vertical-align:top}
-th{font-size:12.5px;font-weight:600;color:var(--muted);background:#f8f9fb;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12.5px;font-weight:600;color:var(--muted);background:var(--thead);border-bottom:1px solid var(--line);white-space:nowrap}
 td.r,th.r{text-align:right}
-tfoot td{font-weight:700;background:#f8f9fb;border-bottom:0}
+tfoot td{font-weight:700;background:var(--thead);border-bottom:0}
 .sig{border:1px solid #c3cad3;border-radius:3px;background:#fff;position:relative}
 .sig canvas{display:block;width:100%;height:clamp(200px,38vh,340px);touch-action:none;cursor:crosshair;user-select:none;-webkit-user-select:none}
 .sig .line{position:absolute;left:16px;right:16px;bottom:34px;border-top:1px solid #c3cad3;pointer-events:none}
 .sig .ph{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:14px;color:var(--muted);pointer-events:none}
 .check{display:flex;gap:9px;align-items:flex-start;font-size:14.5px;cursor:pointer}
 .check input{width:17px;height:17px;min-height:0;margin:2px 0 0;flex:none;accent-color:var(--blue)}
-.ok-box{background:var(--green-soft);border:1px solid #b7dcc5;border-radius:4px;padding:14px 16px;display:grid;gap:6px}
+.ok-box{background:var(--green-soft);border:1px solid var(--green-line);border-radius:4px;padding:14px 16px;display:grid;gap:6px}
 .ok-box b{color:var(--green)}
 .code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;letter-spacing:.04em}
-.sigimg{height:34px;max-width:120px;object-fit:contain;display:block}
+.sigimg{height:34px;max-width:120px;object-fit:contain;display:block;background:#fff;border-radius:3px;padding:2px 5px}
 .empty{padding:28px 16px;text-align:center;color:var(--muted)}
 .foot{font-size:13px;color:var(--muted);margin:0}
 
-#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(12px);opacity:0;transition:.2s;background:#263445;color:#fff;padding:9px 14px;border-radius:4px;font-size:14px;max-width:calc(100% - 32px);z-index:20;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(12px);opacity:0;transition:.2s;background:var(--toast);color:var(--toast-ink);padding:9px 14px;border-radius:4px;font-size:14px;max-width:calc(100% - 32px);z-index:20;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.2)}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.e{background:var(--red)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 /* chips */
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{border:1px solid #c3cad3;background:#fff;color:var(--ink);border-radius:14px;padding:4px 12px;font-size:14px;min-height:30px}
+.chip{border:1px solid var(--field-line);background:var(--field);color:var(--ink);border-radius:14px;padding:4px 12px;font-size:14px;min-height:30px}
 .chip:hover{background:var(--hover)}
 .chip.on{background:var(--blue-soft);border-color:var(--blue);color:var(--blue);font-weight:600}
 .chip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
@@ -195,11 +322,11 @@ html.lock,html.lock body{overflow:hidden}
 .sv-bar{background:var(--head);color:var(--head-ink);padding-top:env(safe-area-inset-top,0px)}
 .sv-bar .sv-in{display:flex;justify-content:space-between;align-items:center;min-height:52px;gap:12px}
 .sv-bar b{font-size:16px}
-.sv-bar .btn.link{color:#cfe0ff;font-size:15px}
+.sv-bar .btn.link{color:var(--link-on-head);font-size:15px}
 .sv-in{max-width:720px;width:100%;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .sv-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .sv-body .sv-in{padding-block:16px 20px;display:grid;gap:16px}
-.sv-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);border-radius:4px;background:#f8f9fb}
+.sv-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);border-radius:4px;background:var(--thead)}
 .sv-sum div{padding:10px 14px;min-width:0}
 .sv-sum div+div{border-left:1px solid var(--line)}
 .sv-sum span{display:block;font-size:12.5px;color:var(--muted)}
@@ -211,14 +338,14 @@ html.lock,html.lock body{overflow:hidden}
 .sv-list .scroll{border:1px solid var(--line);border-radius:4px;max-height:46vh;overflow:auto}
 .adj-hint{margin:0 0 8px;font-size:13.5px;color:var(--muted)}
 .adjt td{vertical-align:middle}
-.adjt tr.chg td{background:#fff7e3}
+.adjt tr.chg td{background:var(--chg)}
 .adjt tr.off td{color:var(--muted)}
 .adjt tr.off .a{text-decoration:line-through}
 .adjt .sub{display:block;font-size:12.5px;color:var(--muted);max-width:42ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hstep{display:inline-flex;align-items:stretch;border:1px solid #c3cad3;border-radius:4px;overflow:hidden;background:#fff}
-.hstep button{width:38px;border:0;background:#f3f5f8;font-size:19px;line-height:1;color:var(--ink);-webkit-tap-highlight-color:transparent}
+.hstep{display:inline-flex;align-items:stretch;border:1px solid var(--field-line);border-radius:4px;overflow:hidden;background:var(--field)}
+.hstep button{width:38px;border:0;background:var(--step);font-size:19px;line-height:1;color:var(--ink);-webkit-tap-highlight-color:transparent}
 .hstep button:active{background:var(--blue-soft)}
-.hstep input{width:62px;min-height:38px;border:0;border-left:1px solid #dde2e8;border-right:1px solid #dde2e8;border-radius:0;text-align:right;padding:4px 7px;font-variant-numeric:tabular-nums;font-weight:600}
+.hstep input{width:62px;min-height:38px;border:0;border-left:1px solid var(--step-line);border-right:1px solid var(--step-line);border-radius:0;text-align:right;padding:4px 7px;font-variant-numeric:tabular-nums;font-weight:600}
 .hstep input:focus{box-shadow:inset 0 0 0 2px var(--blue)}
 .was{display:block;font-size:12px;color:var(--amber);margin-top:3px;white-space:nowrap}
 .adjmark{color:var(--amber);font-weight:700;margin-left:2px}
@@ -234,8 +361,8 @@ html.lock,html.lock body{overflow:hidden}
 
 /* full-screen signing stage */
 .hint-c{margin:8px 0 0;text-align:center;font-size:13px;color:var(--muted)}
-.done-sig{max-width:240px;max-height:80px;object-fit:contain;border-bottom:1px solid var(--line);padding-bottom:4px}
-.ss{position:fixed;inset:0;z-index:40;background:#fff;display:flex;flex-direction:column;
+.done-sig{max-width:240px;max-height:80px;object-fit:contain;background:#fff;border-radius:4px;padding:4px 8px}
+.ss{position:fixed;inset:0;z-index:40;background:var(--card);display:flex;flex-direction:column;
   padding:max(8px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
 .ss.rot{inset:auto;top:0;left:100vw;width:100vh;height:100vw;transform-origin:top left;transform:rotate(90deg);padding:10px 14px}
 @supports (height:100dvh){.ss.rot{width:100dvh}}
@@ -249,7 +376,7 @@ html.lock,html.lock body{overflow:hidden}
 .ss-pad .line{position:absolute;left:5%;right:5%;bottom:26%;border-top:1.5px solid #9aa6b3;pointer-events:none}
 .ss-pad .x{position:absolute;left:5%;bottom:calc(26% + 6px);font:600 22px var(--f);color:#9aa6b3;pointer-events:none}
 .ss-pad .under{position:absolute;left:5%;right:5%;top:calc(74% + 6px);font-size:14px;color:#4b5866;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ss-pad .ph{position:absolute;left:0;right:0;top:34%;text-align:center;font-size:17px;color:var(--muted);pointer-events:none}
+.ss-pad .ph{position:absolute;left:0;right:0;top:34%;text-align:center;font-size:17px;color:#7b8794;pointer-events:none}
 .ss-bot{display:flex;align-items:center;gap:10px;padding-top:8px;flex-wrap:wrap}
 .ss-err{color:var(--red);font-size:14px;font-weight:600}
 #ss-go{opacity:.55}
@@ -276,9 +403,14 @@ img{max-width:100%}
     <nav class="nav" aria-label="Meny">
       <a href="#logg" data-v="logg">Timer</a>
       <a href="#signer" data-v="signer">Godkjenning<span class="cnt" id="tab-cnt" hidden></span></a>
+      <a href="#kompetanse" data-v="kompetanse">Kompetanse</a>
       <a href="#rapporter" data-v="rapporter">Rapporter</a>
     </nav>
     <span class="sync" id="sync" data-m="cloud"><i></i><span>Lagret på telefonen</span></span>
+    <button type="button" class="themebtn" id="themebtn" aria-label="Bytt til mørk modus" title="Mørk modus">
+      <svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
   </div>
 </header>
 
@@ -337,6 +469,11 @@ img{max-width:100%}
           <label class="fld"><span>Jordtype</span><input id="f-soil" list="dl-soil"></label>
         </div>
       </details>
+      <details class="more" id="f-tasks">
+        <summary>Oppgaver denne vakta <span class="muted" id="f-tcount"></span></summary>
+        <p class="lvkey">O = observert · H = med hjelp · T = under tilsyn · S = selvstendig. Trykk samme bokstav igjen for å fjerne. Trykk på navnet for å se hva oppgaven er.</p>
+        <div id="f-tlist"></div>
+      </details>
       <p class="err" id="f-err" hidden></p>
     </div>
     <div class="card-f">
@@ -350,10 +487,13 @@ img{max-width:100%}
   <div class="card">
     <div class="card-h">
       <div class="weekbar">
-        <button class="iconbtn" type="button" id="w-prev" aria-label="Forrige uke">‹</button>
-        <span class="wk" id="w-label"></span>
-        <button class="iconbtn" type="button" id="w-next" aria-label="Neste uke">›</button>
+        <span class="seg2" role="group" aria-label="Visning"><button type="button" data-vw="week">Uke</button><button type="button" data-vw="month">Måned</button></span>
         <button class="btn link small" type="button" id="w-today">I dag</button>
+        <div class="navrow">
+          <button class="iconbtn" type="button" id="w-prev" aria-label="Forrige uke">‹</button>
+          <span class="wk" id="w-label"></span>
+          <button class="iconbtn" type="button" id="w-next" aria-label="Neste uke">›</button>
+        </div>
       </div>
       <div class="hsum"><span class="wsum" id="w-sum"></span><button class="btn alt small" type="button" id="w-sign">Godkjenn uka</button></div>
     </div>
@@ -371,6 +511,8 @@ img{max-width:100%}
         <button type="button" class="chip" data-q="open">Alle åpne</button>
         <button type="button" class="chip" data-q="week">Denne uka</button>
         <button type="button" class="chip" data-q="last">Forrige uke</button>
+        <button type="button" class="chip" data-q="month">Denne måneden</button>
+        <button type="button" class="chip" data-q="lmonth">Forrige måned</button>
       </div>
     </div>
     <div class="card-b" style="padding-bottom:12px">
@@ -386,6 +528,37 @@ img{max-width:100%}
     </div>
   </div>
   <p class="foot">Supervisor får en egen skjerm med timene, navnet sitt og et stort signaturfelt. Godkjente timer låses og kan ikke endres. Signaturen bekrefter kontroll av loggen og er ikke i seg selv en kompetansesertifisering.</p>
+</section>
+
+<!-- KOMPETANSE -->
+<section id="v-kompetanse" class="view" hidden>
+  <div class="ph"><h1>Kompetanse</h1><span class="muted" id="c-sub"></span></div>
+  <div class="card">
+    <div class="card-h"><h2>Oppgaver</h2>
+      <span class="legend"><span><i style="background:var(--blue-soft);box-shadow:inset 0 0 0 1.5px var(--blue)"></i>Logget</span><span><i style="background:var(--green)"></i>Godkjent</span><span>O · H · T · S</span></span>
+    </div>
+    <div id="c-list"></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Erfaringssammendrag</h2><button class="btn small" type="button" id="c-pdf">PDF: Kompetanse og erfaring</button></div>
+    <div id="c-sum"></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h2>Oppgaveliste</h2><button class="btn alt small" type="button" id="c-edit-btn">Rediger</button></div>
+    <div class="card-b" id="c-edit" hidden>
+      <p class="lvkey">Endre navn og kategori, skjul oppgaver du ikke bruker, eller legg til nye. Når du får arbeidsgiverens offisielle liste, legger du den inn her. Logget historikk beholdes.</p>
+      <div id="c-tedit"></div>
+      <div class="tedit">
+        <input id="te-new-name" placeholder="Ny oppgave">
+        <input id="te-new-cat" class="te-cat" placeholder="Kategori" list="dl-tcat">
+        <button class="btn alt small" type="button" id="te-add">Legg til</button>
+      </div>
+      <datalist id="dl-tcat"></datalist>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" id="te-save">Lagre liste</button><button class="btn alt" type="button" id="te-cancel">Avbryt</button></div>
+    </div>
+    <div class="card-b" id="c-edit-info"><p class="lvkey" id="c-edit-txt"></p></div>
+  </div>
+  <p class="foot">Nivåene: Observert = har sett oppgaven utført. Med hjelp = utført med aktiv hjelp. Under tilsyn = utført selv med operatør eller supervisor til stede. Selvstendig = utført uten hjelp. En godkjenning er supervisors vurdering på signeringstidspunktet og ikke i seg selv en formell sertifisering.</p>
 </section>
 
 <!-- RAPPORTER -->
@@ -419,12 +592,14 @@ img{max-width:100%}
     <div class="card-f"><button class="btn" type="submit">Lagre profil</button></div>
   </form>
   <div class="card help">
-    <div class="card-h"><h2>Slik bruker du loggboka</h2><span class="ver">Versjon 1.0</span></div>
+    <div class="card-h"><h2>Slik bruker du loggboka</h2><span class="ver">Versjon 1.1</span></div>
     <div class="card-b">
       <ol>
         <li><b>Legg den på hjemskjermen.</b> iPhone: åpne lenken i Safari → Del → Legg til på Hjem-skjerm. Android: Chrome → ⋮ → Legg til på startskjermen. Da virker den også uten nett.</li>
         <li><b>Registrer etter hvert skift.</b> Dato, aktivitet, timer og en kort kommentar. Trykk en tom dag i ukevisningen for å fylle den.</li>
-        <li><b>Få godkjent.</b> Godkjenning → velg periode → Gi til supervisor. Supervisor kan justere timer, skriver navn og signerer med fingeren, gjerne med telefonen sidelengs.</li>
+        <li><b>Kryss av oppgaver.</b> Under «Oppgaver denne vakta» velger du hva du gjorde og på hvilket nivå (O, H, T, S). Trykk på oppgavenavnet for å se hva den er.</li>
+        <li><b>Få godkjent.</b> Godkjenning → velg periode → Gi til supervisor. Supervisor kan justere timer, skriver navn og signerer med fingeren, gjerne med telefonen sidelengs. Med «Måned» i Timer kan hele måneden godkjennes på én gang.</li>
+        <li><b>Bygg kompetanse.</b> Under Kompetanse ser du hvor langt du har kommet på hver oppgave og kan få supervisor til å godkjenne nivåer. «PDF: Kompetanse og erfaring» er dokumentet du legger ved jobbsøknader. Oppgavelisten er et utkast du kan endre under Oppgaveliste → Rediger.</li>
         <li><b>Ta sikkerhetskopi etter hver tur.</b> Rapporter → Ta sikkerhetskopi, og send filen til deg selv på e-post. Ny telefon: åpne appen og trykk Importer.</li>
         <li><b>Skriv ut.</b> Last ned PDF og velg Skriv ut. Rapportene har marg til hullemaskin.</li>
       </ol>
@@ -444,10 +619,11 @@ img{max-width:100%}
   <div class="sv-body" id="sv-form"><div class="sv-in">
     <div class="sv-sum">
       <div><span>Operatør</span><b id="sv-op"></b><span id="sv-emp"></span></div>
-      <div><span>Periode</span><b id="sv-per" class="num"></b></div>
-      <div class="tot"><span>Timer til godkjenning</span><b id="sv-tot"></b></div>
+      <div><span id="sv-l2">Periode</span><b id="sv-per" class="num"></b></div>
+      <div class="tot"><span id="sv-l3">Timer til godkjenning</span><b id="sv-tot"></b></div>
     </div>
     <details class="sv-list" open><summary id="sv-cnt">Kontroller timene</summary><p class="adj-hint">Bruk − og + eller skriv inn riktig antall timer. Sett 0 for å holde en registrering utenfor godkjenningen.</p><div class="scroll" id="sv-rows"></div></details>
+    <div id="sv-cinfo" hidden></div>
     <div class="fld"><span>Ditt navn</span>
       <div class="chips" id="sv-sups"></div>
       <input id="s-name" list="dl-sup" autocomplete="off" placeholder="Fullt navn" enterkeyhint="next">
@@ -456,7 +632,7 @@ img{max-width:100%}
       <label class="fld"><span>Stilling</span><input id="s-role" list="dl-role" placeholder="Operation Supervisor" enterkeyhint="next"></label>
       <label class="fld"><span>Selskap</span><input id="s-comp" list="dl-client" placeholder="Nexans" enterkeyhint="done"></label>
     </div>
-    <p class="decl">Ved å signere bekrefter du at du har kontrollert timene, og at de etter din kjennskap gir et riktig bilde av arbeidet som er utført.</p>
+    <p class="decl" id="sv-decl">Ved å signere bekrefter du at du har kontrollert timene, og at de etter din kjennskap gir et riktig bilde av arbeidet som er utført.</p>
     <p class="err" id="s-err" hidden></p>
   </div></div>
   <div class="sv-foot" id="sv-foot"><div class="sv-in"><button class="btn big wide" type="button" id="sv-go">Signer</button><p class="hint-c">Signaturfeltet åpnes i stor skjerm. Legg gjerne telefonen sidelengs.</p></div></div>
@@ -897,10 +1073,82 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 </script>
 <script>
 const $=s=>document.querySelector(s);
+/* ---------- tema ---------- */
+const THEME_KEY='capjet-theme';
+const darkMQ=matchMedia('(prefers-color-scheme: dark)');
+function themePref(){try{return localStorage.getItem(THEME_KEY)}catch(e){return null}}
+function isDarkNow(){const p=themePref();if(p)return p==='dark';const t=document.documentElement.dataset.theme;if(t)return t==='dark';return darkMQ.matches}
+function applyTheme(){
+  const d=isDarkNow(),r=document.documentElement.classList;r.toggle('dark',d);r.toggle('light',!d);
+  const b=$('#themebtn');if(b){b.setAttribute('aria-label',d?'Bytt til lys modus':'Bytt til mørk modus');b.title=d?'Lys modus':'Mørk modus'}
+}
+$('#themebtn').onclick=()=>{const next=isDarkNow()?'light':'dark';try{localStorage.setItem(THEME_KEY,next)}catch(e){}applyTheme()};
+darkMQ.addEventListener?.('change',applyTheme);
+new MutationObserver(applyTheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+applyTheme();
 const ACTS=['Aktiv kjøring','Kjøring under veiledning','Observasjon / opplæring','Vedlikehold / ombygging','Annet'];
 const DRIVE=new Set(ACTS.slice(0,2));
 const LS='capjet-logg-standalone-v1';
-const S={entries:new Map(),signoffs:new Map(),profile:{operator:'',employer:'',client:'Nexans',vessel:'',equipment:''},meta:{lastBackup:null},pending:{e:{},s:{},p:false,de:{}},mode:'loading',editing:null,lastSigned:null,week:null};
+const LV=['','Observert','Med hjelp','Under tilsyn','Selvstendig'],LVS=['','O','H','T','S'];
+function defaultTasks(){return [
+ ['t-predeploy','Pre-deploy-sjekk (hydraulikk, elektrisk, sensorer)','Forberedelse',
+  'Gå gjennom sjekklisten før CapJet settes ut: hydraulikknivå og lekkasjer, elektriske forbindelser, kamera, lys, sensorer og kommunikasjon med kontrollrommet.',
+  'Du gjennomfører hele sjekklisten alene, finner og melder avvik, og vet hva som stopper en utsetting.'],
+ ['t-jetsetup','Klargjøring av jetsverd og dyser','Forberedelse',
+  'Montere og justere jetsverdene for planlagt gravedybde, sjekke dyser og at alt er sikret før utsetting.',
+  'Du setter opp sverd og dyser riktig for planlagt dybde og jordtype uten hjelp.'],
+ ['t-sja','SJA / toolbox talk og arbeidstillatelse','Forberedelse',
+  'Delta i, og etter hvert lede, sikker jobbanalyse og toolbox talk før operasjonen. Kjenne arbeidstillatelsene som gjelder.',
+  'Du kan lede en toolbox talk og peke ut risiko og tiltak for operasjonen.'],
+ ['t-launch','LARS: sjøsetting','Sjøsetting og opptak',
+  'Kjøre LARS / A-ramme når CapJet løftes ut over skutt og senkes gjennom splash zone. Du styrer løftet, mens vinsjføreren på umbilical følger deg. Krever tett kommunikasjon med vinsj, dekk og bro, og vurdering av vær og bevegelse i fartøyet.',
+  'Du kjører sjøsettingen, leder kommunikasjonen med vinsjføreren og dekk, og vet når operasjonen skal stoppes.'],
+ ['t-recover','LARS: opptak og sikring på dekk','Sjøsetting og opptak',
+  'Ta CapJet opp gjennom splash zone og inn på dekk med LARS, lande den kontrollert og få den sikret. Vinsjføreren henter inn umbilical i takt med deg.',
+  'Du gjennomfører opptak og landing på dekk trygt, også med noe sjø, uten at noen må ta over.'],
+ ['t-umb','Umbilical-vinsj under sjøsetting og opptak','Sjøsetting og opptak',
+  'Kjøre umbilical-vinsjen mens en annen kjører LARS. Vinsjen må hele tiden passe på og følge etter LARS-bevegelsen: gi ut når LARS går ut og ned, og hente inn når den kommer opp. Umbilical skal verken bli for stram eller få så mye slakk at den spoles feil inn på vinsjtrommelen.',
+  'Du følger LARS gjennom hele sjøsettingen og opptaket med riktig strekk i umbilical, slik at den spoles riktig inn på trommelen, og sier fra eller stopper når noe ikke stemmer.'],
+ ['t-umbrun','Umbilical-vinsj under kjøring','Sjøsetting og opptak',
+  'Styre utlegg og innhaling av umbilical mens CapJet er på bunnen og både fartøy og trencher beveger seg, slik at umbilical verken blir stram eller legger seg i løkker.',
+  'Du holder riktig utlegg gjennom et helt pass uten å måtte korrigeres.'],
+ ['t-landing','Landing og posisjonering over kabel','Kjøring',
+  'Sette CapJet ned på bunnen over kabelen med riktig retning og posisjon før jettingen starter.',
+  'Du lander og posisjonerer over kabelen uten hjelp fra operatøren.'],
+ ['t-track','Kabelsporing / tracking','Kjøring',
+  'Følge kabelen med trackersystemet, tolke signalene og holde CapJet sentrert over kabelen.',
+  'Du holder sporet gjennom et helt pass og oppdager selv når signalet blir usikkert.'],
+ ['t-jetpass','Jetting-pass med dybdekontroll','Kjøring',
+  'Kjøre et jetting-pass: styre fart, vanntrykk og sverddybde slik at kabelen kommer ned til ønsket gravedybde.',
+  'Du kjører et helt pass og når måldybden uten at operatøren må ta over.'],
+ ['t-current','Styring i strøm og vanskelige forhold','Kjøring',
+  'Holde kurs og posisjon i strøm, dårlig sikt eller krevende bunn, og justere når forholdene endrer seg.',
+  'Du håndterer endrede forhold underveis uten å miste kabelen eller måtte stoppe passet.'],
+ ['t-reburial','Flere pass / reburial','Kjøring',
+  'Kjøre nye pass der første pass ikke ga nok dybde, eller grave ned kabel på nytt.',
+  'Du vurderer selv om et nytt pass trengs og gjennomfører det.'],
+ ['t-data','As-trenched-data og rapportering','Data og rapportering',
+  'Logge dybde, posisjon (KP) og hendelser under kjøring, og bidra til as-trenched-rapporten.',
+  'Du fører data og rapport for et helt pass som kan brukes uten retting.'],
+ ['t-handover','Vaktlogg og overlevering','Data og rapportering',
+  'Føre vaktloggen og gi en tydelig overlevering til neste skift: status, avvik og hva som er gjort.',
+  'Du gir en fullstendig overlevering som neste skift kan jobbe videre fra.'],
+ ['t-nozzle','Bytte av dyser og slanger','Vedlikehold',
+  'Skifte slitte dyser og hydraulikkslanger etter prosedyre, og teste etterpå.',
+  'Du gjør jobben riktig og trygt etter prosedyre uten hjelp.'],
+ ['t-fault','Feilsøking hydraulikk / elektrisk','Vedlikehold',
+  'Finne årsaken til feil i hydraulikk eller elektrisk system med tegninger, målinger og systematisk utelukking.',
+  'Du finner og retter vanlige feil selv, og vet når du må eskalere.']
+].map(([id,name,cat,desc,sel])=>({id,name,cat,desc,sel}))}
+const LVD=['','Du har sett oppgaven utført og kan forklare stegene og hvorfor de gjøres.','Du gjør deler av oppgaven selv, men noen må hjelpe aktivt eller ta over underveis.','Du gjør hele oppgaven selv, mens operatør eller supervisor står ved siden av og er klar til å gripe inn.','Du gjør oppgaven alene, trygt og riktig, uten at noen må hjelpe eller rette.'];
+const lvText=(t,l)=>l===4&&t?.sel?t.sel:LVD[l];
+function upgradeComp(c){
+  if(!c||!Array.isArray(c.tasks)||!c.tasks.length||!c.custom)return{tasks:defaultTasks(),custom:false};
+  const d=new Map(defaultTasks().map(t=>[t.id,t]));
+  const OLD=['i klem, i skrog eller propell','uten at umbilical blir stram eller får for mye slakk, og sier'];const stale=v=>typeof v==='string'&&OLD.some(o=>v.includes(o));
+  return{...c,tasks:c.tasks.map(t=>{const x=d.get(t.id);return x?{...t,desc:(t.desc==null||stale(t.desc))?x.desc:t.desc,sel:(t.sel==null||stale(t.sel))?x.sel:t.sel}:t})};
+}
+const S={entries:new Map(),signoffs:new Map(),profile:{operator:'',employer:'',client:'Nexans',vessel:'',equipment:''},meta:{lastBackup:null},pending:{e:{},s:{},p:false,de:{},cs:{},c:false},compsigns:new Map(),comp:{tasks:defaultTasks(),custom:false},mode:'loading',editing:null,lastSigned:null,week:null};
 let refs=null,dl=null,flushing=false;
 
 /* ---------- helpers ---------- */
@@ -924,7 +1172,8 @@ function normEntry(x){
   const h=Math.round(num(x.hours)*4)/4;
   const a=ACTS.includes(x.activity)?x.activity:(ACTS.includes(x.type)?x.type:'Annet');
   const s=v=>String(v??'').trim();
-  return{id:String(x.id),date:s(x.date).slice(0,10),hours:h,activity:a,vessel:s(x.vessel),client:s(x.client),project:s(x.project),equipment:s(x.equipment),waterDepth:s(x.waterDepth),burialDepth:s(x.burialDepth),soil:s(x.soil),notes:s(x.notes),createdAt:s(x.createdAt)||new Date().toISOString(),updatedAt:s(x.updatedAt)||new Date().toISOString()};
+  const tk={};if(x.tasks&&typeof x.tasks==='object')for(const [k,v] of Object.entries(x.tasks)){const n=Number(v);if(n>=1&&n<=4)tk[String(k)]=n}
+  return{id:String(x.id),tasks:tk,date:s(x.date).slice(0,10),hours:h,activity:a,vessel:s(x.vessel),client:s(x.client),project:s(x.project),equipment:s(x.equipment),waterDepth:s(x.waterDepth),burialDepth:s(x.burialDepth),soil:s(x.soil),notes:s(x.notes),createdAt:s(x.createdAt)||new Date().toISOString(),updatedAt:s(x.updatedAt)||new Date().toISOString()};
 }
 function empLine(emp,cli,pre){const t=[emp,cli?'innleid til '+cli:''].filter(Boolean).join(', ');return t?pre+t:''}
 function detail(e){const p=[];if(e.waterDepth)p.push('VD '+e.waterDepth+' m');if(e.burialDepth)p.push('GD '+e.burialDepth+' m');if(e.soil)p.push(e.soil);return p.join(' · ')}
@@ -935,14 +1184,16 @@ function showErr(el,msg){el.textContent=msg;el.hidden=false}
 
 /* ---------- storage ---------- */
 let warnedStore=false;
-function saveCache(){try{localStorage.setItem(LS,JSON.stringify({entries:[...S.entries.values()],signoffs:[...S.signoffs.values()],profile:S.profile,meta:S.meta}));return true}catch(e){if(!warnedStore){warnedStore=true;toast('Telefonen tillater ikke lagring her (privat modus?). Åpne appen i vanlig nettleser.','e')}return false}}
-function loadCache(){try{const c=JSON.parse(localStorage.getItem(LS)||'null');if(!c)return;(c.entries||[]).forEach(e=>S.entries.set(e.id,e));(c.signoffs||[]).forEach(s=>S.signoffs.set(s.id,s));if(c.profile)S.profile={...S.profile,...c.profile};if(c.meta)S.meta={...S.meta,...c.meta}}catch(e){}}
-const pendingCount=()=>Object.keys(S.pending.e).length+Object.keys(S.pending.s).length+Object.keys(S.pending.de).length+(S.pending.p?1:0);
+function saveCache(){try{localStorage.setItem(LS,JSON.stringify({entries:[...S.entries.values()],signoffs:[...S.signoffs.values()],compsigns:[...S.compsigns.values()],comp:S.comp,profile:S.profile,meta:S.meta}));return true}catch(e){if(!warnedStore){warnedStore=true;toast('Telefonen tillater ikke lagring her (privat modus?). Åpne appen i vanlig nettleser.','e')}return false}}
+function loadCache(){try{const c=JSON.parse(localStorage.getItem(LS)||'null');if(!c)return;(c.entries||[]).forEach(e=>S.entries.set(e.id,e));(c.signoffs||[]).forEach(s=>S.signoffs.set(s.id,s));if(c.profile)S.profile={...S.profile,...c.profile};if(c.meta)S.meta={...S.meta,...c.meta};if(c.comp?.tasks?.length)S.comp=upgradeComp(c.comp);(c.compsigns||[]).forEach(x=>S.compsigns.set(x.id,x))}catch(e){}}
+const pendingCount=()=>Object.keys(S.pending.e).length+Object.keys(S.pending.s).length+Object.keys(S.pending.de).length+Object.keys(S.pending.cs||{}).length+Object.keys(S.pending.ds||{}).length+(S.pending.p?1:0)+(S.pending.c?1:0);
 async function persist(){saveCache();render();await flush()}
 async function writeEntry(e){S.entries.set(e.id,e);delete S.pending.de[e.id];S.pending.e[e.id]=1;await persist()}
 async function removeEntry(id){S.entries.delete(id);delete S.pending.e[id];S.pending.de[id]=1;await persist()}
 async function writeSignoff(s){S.signoffs.set(s.id,s);S.pending.s[s.id]=1;await persist()}
-async function flush(){S.pending={e:{},s:{},p:false,de:{}}}
+async function writeCompSign(c){S.compsigns.set(c.id,c);S.pending.cs[c.id]=1;await persist()}
+async function saveComp(){S.comp.custom=true;S.pending.c=true;await persist()}
+async function flush(){S.pending={e:{},s:{},p:false,de:{},cs:{},c:false,ds:{}}}
 function merge(map,snap,pend,del){
   const m=new Map();
   snap.docs.forEach(d=>{const v=d.data();if(v)m.set(d.id,{...v,id:d.id})});
@@ -978,37 +1229,85 @@ function renderLists(){
 }
 
 /* ---------- week table ---------- */
+const monthStart=iso=>iso.slice(0,7)+'-01';
+const addMonths=(ms,n)=>{const d=new Date(ms+'T12:00:00');d.setDate(1);d.setMonth(d.getMonth()+n);return d.toLocaleDateString('en-CA').slice(0,7)+'-01'};
+const monthEnd=ms=>{const d=new Date(ms+'T12:00:00');return new Date(d.getFullYear(),d.getMonth()+1,0,12).toLocaleDateString('en-CA')};
+const monthName=ms=>{const t=new Date(ms+'T12:00:00').toLocaleDateString('no-NO',{month:'long',year:'numeric'});return t[0].toUpperCase()+t.slice(1)};
+try{S.view=localStorage.getItem('capjet-view')==='month'?'month':'week'}catch(e){S.view='week'}
+function dayLabel(day){const dt=new Date(day+'T12:00:00');return `<b>${esc(dt.toLocaleDateString('no-NO',{weekday:'short'}).replace('.',''))}</b> ${dmy(day).slice(0,5)}`}
+function rowHtml(e,j,day,lk){
+  const s=lk.get(e.id),dow=new Date(day+'T12:00:00').getDay(),we=dow===0||dow===6?' weekend':'';
+  const proj=[e.client,e.vessel,e.project].filter(Boolean).join(' · ');
+  const note=[e.notes,detail(e),taskSummary(e)].filter(Boolean).join(' · ');
+  return `<div class="tr row${we}${s?' lock':''}${S.editing===e.id?' sel':''}" data-edit="${esc(e.id)}" tabindex="0" role="button"${j?'':` id="md-${day}"`}>
+    <span class="c-day">${j?'':dayLabel(day)}</span><span class="c-act">${esc(e.activity)}</span>
+    <span class="c-proj" title="${esc(proj)}">${esc(proj)||'–'}</span><span class="c-note" title="${esc(note)}">${esc(note)||'<span class="muted">–</span>'}</span>
+    <span class="c-h"${e.origHours!=null?` title="Justert av ${esc(e.adjustedBy||"supervisor")} fra ${fmt2(e.origHours)} t"`:""}>${fmt2(e.hours)}${e.origHours!=null?'<span class="adjmark">*</span>':""}</span><span class="c-st">${s?'<span class="st ok">Godkjent</span>':'<span class="st open">Åpen</span>'}</span>
+    <span class="c-meta">${esc([proj,note].filter(Boolean).join(' · '))||'&nbsp;'}</span></div>`;
+}
+const TH=`<div class="tr th"><span>Dag</span><span>Aktivitet</span><span>Fartøy / prosjekt</span><span>Kommentar</span><span class="c-h">Timer</span><span>Status</span></div>`;
+const sumRow=(cls,label,v)=>`<div class="tr ${cls}"><span class="c-day">${label}</span><span class="blank"></span><span class="blank"></span><span class="blank"></span><span class="c-h">${fmt2(v)}</span><span class="blank"></span></div>`;
 function renderWeek(){
+  const m=S.view==='month';
+  document.querySelectorAll('.seg2 [data-vw]').forEach(b=>{b.classList.toggle('on',b.dataset.vw===S.view);b.setAttribute('aria-pressed',b.dataset.vw===S.view)});
+  $('#w-prev').setAttribute('aria-label',m?'Forrige måned':'Forrige uke');$('#w-next').setAttribute('aria-label',m?'Neste måned':'Neste uke');
+  $('#w-today').textContent=m?'Denne mnd':'I dag';$('#w-sign').textContent=m?'Godkjenn måneden':'Godkjenn uka';
+  if(m)return renderMonth();
   if(!S.week)S.week=mondayOf(today());
   const lk=lockMap(),mon=S.week,sun=addDays(mon,6);
   $('#w-label').innerHTML=`Uke ${isoWeek(mon)}<span>${dmy(mon).slice(0,5)}–${dmy(sun)}</span>`;
-  let h=`<div class="tr th"><span>Dag</span><span>Aktivitet</span><span>Fartøy / prosjekt</span><span>Kommentar</span><span class="c-h">Timer</span><span>Status</span></div>`;
-  let wk=0;
+  let h=TH,wk=0;
   for(let i=0;i<7;i++){
-    const day=addDays(mon,i),dt=new Date(day+'T12:00:00');
-    const label=`<b>${esc(dt.toLocaleDateString('no-NO',{weekday:'short'}).replace('.',''))}</b> ${dmy(day).slice(0,5)}`;
-    const list=[...S.entries.values()].filter(e=>e.date===day).sort(byDate);
-    const we=i>4?' weekend':'';
-    if(!list.length){h+=`<div class="tr dayrow${we}" data-day="${day}" tabindex="0" role="button" aria-label="Registrer timer ${dmy(day)}"><span class="c-day">${label}</span><span class="add">+ Registrer</span></div>`;continue}
-    list.forEach((e,j)=>{
-      const s=lk.get(e.id);wk+=e.hours;
-      const proj=[e.client,e.vessel,e.project].filter(Boolean).join(' · ');
-      const note=[e.notes,detail(e)].filter(Boolean).join(' · ');
-      h+=`<div class="tr row${we}${s?' lock':''}${S.editing===e.id?' sel':''}" data-edit="${esc(e.id)}" tabindex="0" role="button">
-        <span class="c-day">${j?'':label}</span><span class="c-act">${esc(e.activity)}</span>
-        <span class="c-proj" title="${esc(proj)}">${esc(proj)||'–'}</span><span class="c-note" title="${esc(note)}">${esc(note)||'<span class="muted">–</span>'}</span>
-        <span class="c-h"${e.origHours!=null?` title="Justert av ${esc(e.adjustedBy||"supervisor")} fra ${fmt2(e.origHours)} t"`:""}>${fmt2(e.hours)}${e.origHours!=null?'<span class="adjmark">*</span>':""}</span><span class="c-st">${s?'<span class="st ok">Godkjent</span>':'<span class="st open">Åpen</span>'}</span>
-        <span class="c-meta">${esc([proj,note].filter(Boolean).join(' · '))||'&nbsp;'}</span></div>`;
-    });
+    const day=addDays(mon,i),list=[...S.entries.values()].filter(e=>e.date===day).sort(byDate);
+    if(!list.length){h+=`<div class="tr dayrow${i>4?' weekend':''}" data-day="${day}" tabindex="0" role="button" aria-label="Registrer timer ${dmy(day)}"><span class="c-day">${dayLabel(day)}</span><span class="add">+ Registrer</span></div>`;continue}
+    list.forEach((e,j)=>{wk+=e.hours;h+=rowHtml(e,j,day,lk)});
   }
-  h+=`<div class="tr tfoot"><span class="c-day">Sum uke ${isoWeek(mon)}</span><span class="blank"></span><span class="blank"></span><span class="blank"></span><span class="c-h">${fmt2(wk)}</span><span class="blank"></span></div>`;
+  h+=sumRow('tfoot',`Sum uke ${isoWeek(mon)}`,wk);
   $('#week').innerHTML=h;
   $('#w-sum').innerHTML=`Sum uke: <b>${fmt2(wk)} t</b>`;
 }
-$('#w-prev').onclick=()=>{S.week=addDays(S.week,-7);renderWeek()};
-$('#w-next').onclick=()=>{S.week=addDays(S.week,7);renderWeek()};
-$('#w-today').onclick=()=>{S.week=mondayOf(today());renderWeek()};
+function renderMonth(){
+  if(!S.month)S.month=monthStart(today());
+  const lk=lockMap(),ms=S.month,me=monthEnd(ms),td=today();
+  $('#w-label').textContent=monthName(ms);
+  const all=[...S.entries.values()].filter(e=>e.date>=ms&&e.date<=me).sort(byDate);
+  const tot=sum(all),drive=sum(all.filter(e=>DRIVE.has(e.activity))),signed=sum(all.filter(e=>lk.has(e.id))),days=new Set(all.map(e=>e.date));
+  const by=ACTS.map(a=>[a,sum(all.filter(e=>e.activity===a))]).filter(x=>x[1]>0);
+  let h=`<div class="msum"><div><span>Timer</span><b>${fmt2(tot)}<small>t</small></b></div><div><span>Kjøretid</span><b>${fmt2(drive)}<small>t</small></b></div><div><span>Dager med timer</span><b>${days.size}</b></div><div><span>Godkjent / åpne</span><b>${fmt(signed)}<small>/ ${fmt(tot-signed)} t</small></b></div></div>`;
+  if(by.length)h+=`<div class="mact">${by.map(([a,v])=>`${esc(a)} ${fmt(v)} t`).join(' · ')}</div>`;
+  h+='<div class="cal">'+['Man','Tir','Ons','Tor','Fre','Lør','Søn'].map(d=>`<span class="dh">${d}</span>`).join('');
+  const lead=(new Date(ms+'T12:00:00').getDay()+6)%7;for(let i=0;i<lead;i++)h+='<span></span>';
+  for(let day=ms;day<=me;day=addDays(day,1)){
+    const list=all.filter(e=>e.date===day),hrs=sum(list),open=list.some(e=>!lk.has(e.id));
+    const cls=list.length?(open?'open':'ok'):'';
+    h+=`<button type="button" class="cday ${cls}${day===td?' today':''}" data-cday="${day}" aria-label="${dmy(day)}${list.length?`: ${fmt2(hrs)} timer, ${open?'åpne':'godkjent'}`:', ingen timer'}"><span class="n">${Number(day.slice(8))}</span>${list.length?`<b>${fmt(hrs)}</b>`:''}</button>`;
+  }
+  h+=`</div><div class="calkey"><span><i style="background:var(--amber-soft)"></i>Åpne timer</span><span><i style="background:var(--green-soft);border-color:var(--green-line)"></i>Godkjent</span><span>Trykk en dag for å se eller registrere</span></div>`;
+  if(!all.length){h+=`<div class="empty">Ingen timer registrert i ${monthName(ms).toLowerCase()}.</div>`}
+  else{
+    h+=TH;let curWk=null,wkSum=0,buf='';
+    const flushWk=()=>{if(curWk!==null)h+=sumRow('wkhead',`Uke ${curWk}`,wkSum)+buf;buf='';wkSum=0};
+    for(const day of [...days].sort()){
+      const w=isoWeek(day);if(w!==curWk){flushWk();curWk=w}
+      all.filter(e=>e.date===day).forEach((e,j)=>{wkSum+=e.hours;buf+=rowHtml(e,j,day,lk)});
+    }
+    flushWk();
+    h+=sumRow('tfoot',`Sum ${monthName(ms).toLowerCase()}`,tot);
+  }
+  $('#week').innerHTML=h;
+  $('#w-sum').innerHTML=`Sum måned: <b>${fmt2(tot)} t</b>`;
+}
+$('.seg2').addEventListener('click',ev=>{const b=ev.target.closest('[data-vw]');if(!b)return;S.view=b.dataset.vw;try{localStorage.setItem('capjet-view',S.view)}catch(e){}
+  if(S.view==='month')S.month=monthStart(!S.week||S.week===mondayOf(today())?today():addDays(S.week,3));else S.week=mondayOf(S.month&&S.month.slice(0,7)===today().slice(0,7)?today():(S.month||today()));renderWeek()});
+$('#w-prev').onclick=()=>{if(S.view==='month')S.month=addMonths(S.month,-1);else S.week=addDays(S.week,-7);renderWeek()};
+$('#w-next').onclick=()=>{if(S.view==='month')S.month=addMonths(S.month,1);else S.week=addDays(S.week,7);renderWeek()};
+$('#w-today').onclick=()=>{S.week=mondayOf(today());S.month=monthStart(today());renderWeek()};
 function weekClick(ev){
+  const c=ev.target.closest('[data-cday]');
+  if(c){const day=c.dataset.cday,el=document.getElementById('md-'+day);
+    if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('sel');setTimeout(()=>el.classList.remove('sel'),1400)}
+    else{resetForm();$('#f-date').value=day;renderWeek();$('#f').scrollIntoView({behavior:'smooth',block:'start'});$('#f-hours').focus({preventScroll:true})}
+    return}
   const r=ev.target.closest('[data-edit]'),d=ev.target.closest('[data-day]');
   if(r){startEdit(r.dataset.edit);return}
   if(d){resetForm();$('#f-date').value=d.dataset.day;renderWeek();$('#f').scrollIntoView({behavior:'smooth',block:'start'});$('#f-hours').focus({preventScroll:true})}
@@ -1020,7 +1319,7 @@ $('#week').addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev
 $('#f-act').innerHTML=ACTS.map(a=>`<option>${esc(a)}</option>`).join('');
 function fErr(sel,msg){showErr($('#f-err'),msg);if(sel){$(sel).classList.add('bad');$(sel).focus()}}
 function resetForm(){
-  S.editing=null;['#f-hours','#f-notes','#f-wd','#f-bd','#f-soil'].forEach(s=>$(s).value='');
+  S.editing=null;S.ftasks={};renderFormTasks();['#f-hours','#f-notes','#f-wd','#f-bd','#f-soil'].forEach(s=>$(s).value='');
   $('#f-date').value=today();$('#f-title').textContent='Registrer timer';$('#f-hint').textContent='';$('#f-save').textContent='Lagre';
   $('#f-cancel').hidden=true;$('#f-del').hidden=true;$('#f-err').hidden=true;
   document.querySelectorAll('#f .bad').forEach(x=>x.classList.remove('bad'));
@@ -1042,6 +1341,7 @@ function startEdit(id){
   $('#f-vessel').value=e.vessel;$('#f-client').value=e.client||'';$('#f-project').value=e.project;$('#f-equip').value=e.equipment;
   $('#f-wd').value=e.waterDepth;$('#f-bd').value=e.burialDepth;$('#f-soil').value=e.soil;
   $('#f-more').open=!!detail(e);
+  S.ftasks={...(e.tasks||{})};renderFormTasks();$('#f-tasks').open=Object.keys(S.ftasks).length>0;
   $('#f-title').textContent='Endre timer';$('#f-hint').textContent=dmy(e.date);$('#f-save').textContent='Lagre endring';
   $('#f-cancel').hidden=false;$('#f-del').hidden=false;$('#f-err').hidden=true;
   renderWeek();$('#f').scrollIntoView({behavior:'smooth',block:'start'});
@@ -1062,9 +1362,26 @@ $('#f').addEventListener('submit',async ev=>{
   const e=normEntry({id:S.editing||newId('e'),date,hours:h,activity:$('#f-act').value,
     vessel:$('#f-vessel').value,client:$('#f-client').value,project:$('#f-project').value,equipment:$('#f-equip').value,
     waterDepth:$('#f-wd').value.trim()?fmt(num($('#f-wd').value)):'',burialDepth:$('#f-bd').value.trim()?fmt(num($('#f-bd').value)):'',
-    soil:$('#f-soil').value,notes:$('#f-notes').value,createdAt:old?.createdAt,updatedAt:new Date().toISOString()});
-  const was=!!S.editing;resetForm();S.week=mondayOf(e.date);await writeEntry(e);
+    soil:$('#f-soil').value,notes:$('#f-notes').value,tasks:S.ftasks,createdAt:old?.createdAt,updatedAt:new Date().toISOString()});
+  const was=!!S.editing;resetForm();S.week=mondayOf(e.date);S.month=monthStart(e.date);await writeEntry(e);
   toast(was?'Endringen er lagret':`Lagret ${fmt2(e.hours)} t ${dmy(e.date)}`);
+});
+
+/* ---------- oppgaver i skjema ---------- */
+const taskById=id=>S.comp.tasks.find(t=>t.id===id);
+const activeTasks=()=>S.comp.tasks.filter(t=>!t.hidden);
+function groupByCat(list){const m=new Map();list.forEach(t=>{const c=t.cat||'Annet';if(!m.has(c))m.set(c,[]);m.get(c).push(t)});return m}
+function taskSummary(e){return Object.entries(e.tasks||{}).map(([id,l])=>`${taskById(id)?.name||id} (${LVS[l]})`).join(', ')}
+function renderFormTasks(){
+  if(!S.ftasks)S.ftasks={};
+  let h='';for(const [cat,list] of groupByCat(activeTasks())){h+=`<div class="tcat">${esc(cat)}</div>`+list.map(t=>`<div class="trow"><button type="button" class="tn" data-info="${esc(t.id)}" aria-expanded="${S.finfo===t.id}">${esc(t.name)}</button><span class="lv" data-t="${esc(t.id)}" role="group" aria-label="${esc(t.name)}">${[1,2,3,4].map(l=>`<button type="button" data-l="${l}" title="${LV[l]}" aria-pressed="${S.ftasks[t.id]===l}" class="${S.ftasks[t.id]===l?'on':''}">${LVS[l]}</button>`).join('')}</span></div>${S.finfo===t.id?`<div class="tdesc">${esc(t.desc||'Ingen beskrivelse.')}${t.sel?`<br><b>Selvstendig når:</b> ${esc(t.sel)}`:''}</div>`:''}`).join('')}
+  $('#f-tlist').innerHTML=h||'<p class="lvkey">Ingen oppgaver i listen. Legg til under Kompetanse.</p>';
+  const n=Object.keys(S.ftasks).length;$('#f-tcount').textContent=n?`(${n} valgt)`:'(valgfritt)';
+}
+$('#f-tlist').addEventListener('click',ev=>{
+  const inf=ev.target.closest('[data-info]');if(inf){S.finfo=S.finfo===inf.dataset.info?null:inf.dataset.info;renderFormTasks();return}
+  const b=ev.target.closest('[data-l]');if(!b)return;const id=b.closest('[data-t]').dataset.t,l=Number(b.dataset.l);
+  if(S.ftasks[id]===l)delete S.ftasks[id];else S.ftasks[id]=l;renderFormTasks();
 });
 
 /* ---------- hurtigvalg i skjema ---------- */
@@ -1075,9 +1392,10 @@ $('#f-copy').onclick=()=>{
   $('#f-act').value=last.activity;$('#f-hours').value=fmt2(last.hours);$('#f-notes').value=last.notes;
   $('#f-vessel').value=last.vessel;$('#f-client').value=last.client||'';$('#f-project').value=last.project;$('#f-equip').value=last.equipment;
   $('#f-wd').value=last.waterDepth;$('#f-bd').value=last.burialDepth;$('#f-soil').value=last.soil;
+  S.ftasks={...(last.tasks||{})};renderFormTasks();if(Object.keys(S.ftasks).length)$('#f-tasks').open=true;
   toast(`Kopiert fra ${dmy(last.date)} – sjekk dato og trykk Lagre`);
 };
-$('#w-sign').onclick=()=>{$('#s-from').value=S.week;$('#s-to').value=addDays(S.week,6);S.lastSigned=null;location.hash='#signer';renderReceipt();renderSigner()};
+$('#w-sign').onclick=()=>{if(S.view==='month'){$('#s-from').value=S.month;$('#s-to').value=monthEnd(S.month)}else{$('#s-from').value=S.week;$('#s-to').value=addDays(S.week,6)}S.lastSigned=null;location.hash='#signer';renderReceipt();renderSigner()};
 
 /* ---------- godkjenning ---------- */
 function signRows(){
@@ -1098,7 +1416,8 @@ function rowsTable(rows){
 }
 function renderSigner(){
   const f=$('#s-from').value,t=$('#s-to').value,mon=mondayOf(today()),open=openRows();
-  const q={open:[open[0]?.date,open.length?open[open.length-1].date:null],week:[mon,addDays(mon,6)],last:[addDays(mon,-7),addDays(mon,-1)]};
+  const ms=monthStart(today()),lms=addMonths(ms,-1);
+  const q={open:[open[0]?.date,open.length?open[open.length-1].date:null],week:[mon,addDays(mon,6)],last:[addDays(mon,-7),addDays(mon,-1)],month:[ms,monthEnd(ms)],lmonth:[lms,monthEnd(lms)]};
   document.querySelectorAll('#s-quick .chip').forEach(c=>{const [a,b]=q[c.dataset.q];c.classList.toggle('on',c.dataset.q==='open'?(open.length>0&&f<=a&&t>=b):(f===a&&t===b))});
   $('#s-pre').hidden=true;
   if(f&&t&&f>t){$('#s-rows').innerHTML='<div class="card-b"><p class="err">Fra-dato må være før til-dato.</p></div>';$('#s-open').disabled=true;return}
@@ -1113,6 +1432,8 @@ $('#s-quick').addEventListener('click',ev=>{
   if(c.dataset.q==='open')defaultPeriod();
   if(c.dataset.q==='week'){$('#s-from').value=mon;$('#s-to').value=addDays(mon,6)}
   if(c.dataset.q==='last'){$('#s-from').value=addDays(mon,-7);$('#s-to').value=addDays(mon,-1)}
+  if(c.dataset.q==='month'){const ms=monthStart(today());$('#s-from').value=ms;$('#s-to').value=monthEnd(ms)}
+  if(c.dataset.q==='lmonth'){const ms=addMonths(monthStart(today()),-1);$('#s-from').value=ms;$('#s-to').value=monthEnd(ms)}
   renderSigner();
 });
 
@@ -1186,7 +1507,7 @@ let wakeLock=null;
 async function keepAwake(){try{wakeLock=await navigator.wakeLock?.request('screen')}catch(e){wakeLock=null}}
 function releaseAwake(){try{wakeLock?.release()}catch(e){}wakeLock=null}
 function knownSupervisors(){
-  const m=new Map();[...S.signoffs.values()].sort((a,b)=>a.signedAt.localeCompare(b.signedAt)).forEach(s=>{if(s.supervisor)m.set(s.supervisor,[s.role||'',s.supCompany||''])});
+  const m=new Map();[...S.signoffs.values(),...S.compsigns.values()].sort((a,b)=>a.signedAt.localeCompare(b.signedAt)).forEach(s=>{if(s.supervisor)m.set(s.supervisor,[s.role||'',s.supCompany||''])});
   return[...m.entries()].reverse().slice(0,6);
 }
 function sErr(msg,sel){showErr($('#s-err'),msg);if(sel)$(sel).focus();$('#s-err').scrollIntoView({block:'nearest',behavior:'smooth'})}
@@ -1194,13 +1515,24 @@ function openSV(){
   const rows=signRows(),pre=$('#s-pre');
   if(!rows.length){showErr(pre,'Det finnes ingen åpne timer i valgt periode.');return}
   if(!S.profile.operator){showErr(pre,'Legg inn ditt fulle navn under Rapporter → Profil først, så står det riktig på godkjenningen.');return}
+  setSvMode('hours');
   $('#sv-op').textContent=S.profile.operator;$('#sv-emp').textContent=empLine(S.profile.employer,clientsOf(rows)||S.profile.client,'');
   $('#sv-per').textContent=`${dmy(rows[0].date)} – ${dmy(rows[rows.length-1].date)}`;
   S.adj=new Map();renderSvRows();$('.sv-list').open=true;
+  svShow(clientsOf(rows).split(', ')[0]||S.profile.client||'');
+}
+function setSvMode(m){
+  S.svMode=m;const c=m==='comp';
+  $('#sv-title').textContent=c?'Godkjenning av kompetanse':'Godkjenning av timer';
+  $('#sv-l2').textContent=c?'Oppgave':'Periode';$('#sv-l3').textContent=c?'Nivå':'Timer til godkjenning';
+  $('.sv-list').hidden=c;$('#sv-cinfo').hidden=!c;
+  $('#sv-decl').textContent=c?`Ved å signere bekrefter du at ${S.profile.operator||'operatøren'} etter din vurdering har utført oppgaven på dette nivået.`:'Ved å signere bekrefter du at du har kontrollert timene, og at de etter din kjennskap gir et riktig bilde av arbeidet som er utført.';
+}
+function svShow(company){
   const sups=knownSupervisors();
   $('#sv-sups').innerHTML=sups.map(([n,[r,c]])=>`<button type="button" class="chip" data-n="${esc(n)}" data-r="${esc(r)}" data-c="${esc(c)}">${esc(n)}</button>`).join('');
   $('#sv-sups').hidden=!sups.length;
-  $('#s-name').value='';$('#s-role').value='';$('#s-comp').value=clientsOf(rows).split(', ')[0]||S.profile.client||'';$('#s-err').hidden=true;pad.strokes=[];
+  $('#s-name').value='';$('#s-role').value='';$('#s-comp').value=company;$('#s-err').hidden=true;pad.strokes=[];
   $('#sv-form').hidden=false;$('#sv-foot').hidden=false;$('#sv-done').hidden=true;
   $('#sv').hidden=false;document.documentElement.classList.add('lock');keepAwake();
   requestAnimationFrame(()=>$('#sv-form').scrollTop=0);
@@ -1243,7 +1575,7 @@ $('#sv-rows').addEventListener('keydown',ev=>{if(ev.key==='Enter'&&ev.target.mat
 function closeSV(){closeStage(false);$('#sv').hidden=true;document.documentElement.classList.remove('lock');releaseAwake()}
 $('#s-open').onclick=openSV;
 $('#sv-close').onclick=closeSV;
-$('#sv-finish').onclick=()=>{closeSV();renderReceipt()};
+$('#sv-finish').onclick=()=>{closeSV();renderReceipt();renderComp()};
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&!$('#sv').hidden)keepAwake()});
 $('#sv-sups').addEventListener('click',ev=>{const c=ev.target.closest('[data-n]');if(!c)return;$('#s-name').value=c.dataset.n;$('#s-role').value=c.dataset.r;if(c.dataset.c)$('#s-comp').value=c.dataset.c;document.querySelectorAll('#sv-sups .chip').forEach(x=>x.classList.toggle('on',x===c));$('#s-err').hidden=true});
 $('#s-name').addEventListener('input',()=>{$('#s-err').hidden=true;document.querySelectorAll('#sv-sups .chip').forEach(x=>x.classList.toggle('on',x.dataset.n===$('#s-name').value.trim()))});
@@ -1254,14 +1586,15 @@ $('#s-comp').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault
 /* open the big pad */
 async function openStage(){
   document.activeElement?.blur?.();
-  const rows=approvedRows();
-  if(!rows.length)return sErr('Ingen timer å godkjenne. Alle registreringene står på 0.');
+  const comp=S.svMode==='comp',rows=comp?[]:approvedRows();
+  if(!comp&&!rows.length)return sErr('Ingen timer å godkjenne. Alle registreringene står på 0.');
   const sup=$('#s-name').value.trim();if(!sup)return sErr('Skriv fullt navn, eller trykk på navnet ditt over.','#s-name');
   document.activeElement?.blur?.();
   const role=[$('#s-role').value.trim(),$('#s-comp').value.trim()].filter(Boolean).join(', ');
   $('#ss-who').textContent=sup+(role?', '+role:'');
-  $('#ss-info').textContent=`Godkjenner ${fmt2(sum(rows))} t for ${S.profile.operator} · ${dmy(rows[0].date).slice(0,5)}–${dmy(rows[rows.length-1].date)}`;
-  $('#ss-go').textContent=`Godkjenn ${fmt2(sum(rows))} t`;
+  if(comp){const t=taskById(S.svComp.taskId);$('#ss-info').textContent=`Bekrefter «${t?.name||''}» – ${LV[S.svComp.level]} for ${S.profile.operator}`;$('#ss-go').textContent='Bekreft kompetanse'}
+  else{$('#ss-info').textContent=`Godkjenner ${fmt2(sum(rows))} t for ${S.profile.operator} · ${dmy(rows[0].date).slice(0,5)}–${dmy(rows[rows.length-1].date)}`;
+  $('#ss-go').textContent=`Godkjenn ${fmt2(sum(rows))} t`}
   $('#ss-under').textContent=`${sup}${role?' · '+role:''} · ${new Date().toLocaleDateString('no-NO')}`;
   $('#ss-err').hidden=true;
   $('#ss').hidden=false;applyRot();
@@ -1280,6 +1613,7 @@ $('#ss-back').onclick=()=>closeStage();
 document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('#ss').hidden)closeStage();else if(!$('#sv').hidden)closeSV()});
 
 $('#ss-go').onclick=async()=>{
+  if(S.svMode==='comp')return signComp();
   const rows=approvedRows(),all=svRows(),sup=$('#s-name').value.trim();
   const err=m=>{const el=$('#ss-err');el.textContent=m;el.hidden=false};
   if(!rows.length||!sup){closeStage();return sErr('Sjekk navn og periode, og prøv igjen.')}
@@ -1289,7 +1623,7 @@ $('#ss-go').onclick=async()=>{
     const sig=exportSig();
     const s={id:newId('s'),from:$('#s-from').value,to:$('#s-to').value,operator:S.profile.operator,employer:S.profile.employer||'',client:clientsOf(rows)||S.profile.client||'',
       supervisor:sup,role:$('#s-role').value.trim(),supCompany:$('#s-comp').value.trim(),signedAt:new Date().toISOString(),
-      rows:rows.map(r=>({id:r.id,date:r.date,hours:r.hours,...(r.hours!==r.orig?{orig:r.orig}:{}),activity:r.activity,vessel:r.vessel,client:r.client||'',project:r.project,equipment:r.equipment,waterDepth:r.waterDepth,burialDepth:r.burialDepth,soil:r.soil,notes:r.notes})),
+      rows:rows.map(r=>({id:r.id,date:r.date,hours:r.hours,...(r.hours!==r.orig?{orig:r.orig}:{}),activity:r.activity,vessel:r.vessel,client:r.client||'',project:r.project,equipment:r.equipment,waterDepth:r.waterDepth,burialDepth:r.burialDepth,soil:r.soil,notes:r.notes,...(Object.keys(r.tasks||{}).length?{tasks:r.tasks}:{})})),
       total:sum(rows),sig:sig.data,sigW:sig.w,sigH:sig.h,voided:false};
     s.hash=await sha(canon(payloadOf(s)));
     const now=new Date().toISOString();
@@ -1317,6 +1651,146 @@ function renderReceipt(){
   $('#rc-new').onclick=()=>{S.lastSigned=null;defaultPeriod();renderReceipt();renderSigner()};
 }
 
+
+/* ---------- kompetanse ---------- */
+function taskStats(){
+  const m=new Map();
+  for(const e of S.entries.values())for(const [id,l] of Object.entries(e.tasks||{})){
+    let o=m.get(id);if(!o){o={count:0,max:0,by:[0,0,0,0,0],first:e.date,last:e.date,hist:[]};m.set(id,o)}
+    o.count++;o.max=Math.max(o.max,l);o.by[l]++;if(e.date<o.first)o.first=e.date;if(e.date>o.last)o.last=e.date;o.hist.push({date:e.date,l,notes:e.notes})}
+  m.forEach(o=>o.hist.sort((a,b)=>b.date.localeCompare(a.date)));return m;
+}
+function compSignMap(){
+  const m=new Map();for(const c of S.compsigns.values()){if(c.voided)continue;let o=m.get(c.taskId);if(!o){o={};m.set(c.taskId,o)}if(!o[c.level]||o[c.level].signedAt<c.signedAt)o[c.level]=c}return m;
+}
+const maxSigned=o=>o?Math.max(0,...Object.keys(o).map(Number)):0;
+const compPayload=c=>({taskId:c.taskId,taskName:c.taskName,taskCat:c.taskCat,level:c.level,operator:c.operator,employer:c.employer,client:c.client,supervisor:c.supervisor,role:c.role,supCompany:c.supCompany,signedAt:c.signedAt,count:c.count,countAtLevel:c.countAtLevel,first:c.first,last:c.last});
+function shownTasks(st){return S.comp.tasks.filter(t=>!t.hidden||st.has(t.id)||[...S.compsigns.values()].some(c=>c.taskId===t.id&&!c.voided))}
+function renderComp(){
+  if(!$('#c-list'))return;
+  const st=taskStats(),sm=compSignMap(),tasks=shownTasks(st);
+  const indep=activeTasks().filter(t=>maxSigned(sm.get(t.id))>=4).length;
+  $('#c-sub').textContent=`${indep} av ${activeTasks().length} oppgaver godkjent som selvstendig`;
+  let h='';
+  for(const [cat,list] of groupByCat(tasks)){
+    h+=`<div class="ctask-cat">${esc(cat)}</div>`;
+    for(const t of list){
+      const o=st.get(t.id),sg=sm.get(t.id),ms=maxSigned(sg),ml=o?.max||0,open=S.cOpen===t.id;
+      const meta=o?`Logget ${o.count} gang${o.count===1?'':'er'} · sist ${dmy(o.last)}`:'Ikke logget ennå';
+      h+=`<div class="ctask"><button class="ctask-h" data-ct="${esc(t.id)}" aria-expanded="${open}"><span><span class="ctask-n">${esc(t.name)}${t.hidden?' <span class="muted">(skjult)</span>':''}</span><span class="ctask-m">${meta}${ms?` · godkjent: ${LV[ms].toLowerCase()}`:''}</span></span>
+        <span class="ladder" aria-label="Logget ${LV[ml]||'ingen'}, godkjent ${LV[ms]||'ingen'}">${[1,2,3,4].map(l=>`<i class="${l<=ms?'sg':l<=ml?'lg':''}"></i>`).join('')}<b>${ms?LVS[ms]:''}</b></span></button>`;
+      if(open){
+        const sug=[4,3,2,1].find(l=>l<=ml&&!(sg&&sg[l]))||0;
+        h+=`<div class="ctask-x">
+          ${t.desc?`<p class="cdesc">${esc(t.desc)}</p>`:''}
+          ${t.sel?`<p class="cindep"><b>Selvstendig når:</b> ${esc(t.sel)}</p>`:''}
+          <details class="lvexp"><summary>Hva betyr nivåene for denne oppgaven?</summary><dl>${[1,2,3,4].map(l=>`<dt>${LV[l]}</dt><dd>${esc(lvText(t,l))}</dd>`).join('')}</dl></details>
+          <div class="lvbars">${[1,2,3,4].map(l=>`<div>${LV[l]}<b>${o?o.by[l]:0}</b></div>`).join('')}</div>
+          ${sg?`<div class="signed">${[4,3,2,1].filter(l=>sg[l]).map(l=>{const c=sg[l];return `<div><span class="st ok">${LV[l]}</span><span>${esc(c.supervisor)} · ${new Date(c.signedAt).toLocaleDateString('no-NO')} · <span class="code muted" style="font-size:12px">${esc(code(c.hash))}</span></span>${c.sig?`<img src="${esc(c.sig)}" alt="Signatur ${esc(c.supervisor)}">`:''}<button class="btn link small" type="button" data-cvoid="${esc(c.id)}">Trekk tilbake</button></div>`}).join('')}</div>`:''}
+          <p class="lvkey">Få godkjent av supervisor eller operatør:</p>
+          <div class="lvsign">${[1,2,3,4].map(l=>{const done=sg&&sg[l];return `<button type="button" ${done?'disabled':''} class="${done?'done':l===sug?'sug':''}" data-sign="${esc(t.id)}" data-l="${l}">${LV[l]}<small>${done?'Godkjent':o&&o.by[l]?`logget ${o.by[l]}×`:'ikke logget'}</small></button>`}).join('')}</div>
+        </div>`;
+      }
+      h+='</div>';
+    }
+  }
+  $('#c-list').innerHTML=h||'<div class="empty">Ingen oppgaver. Legg til under Oppgaveliste.</div>';
+  renderSummary();
+  if($('#c-edit').hidden){const n=S.comp.tasks.length,hid=S.comp.tasks.filter(t=>t.hidden).length;$('#c-edit-txt').textContent=`${n-hid} aktive oppgaver${hid?`, ${hid} skjult`:''}. ${S.comp.custom?'Tilpasset liste.':'Dette er et utkast. Bytt til arbeidsgiverens offisielle liste når du får den.'}`}
+}
+$('#c-list').addEventListener('click',ev=>{
+  const sgn=ev.target.closest('[data-sign]'),v=ev.target.closest('[data-cvoid]'),h=ev.target.closest('[data-ct]');
+  if(v){twoStep(v,'Bekreft',async()=>{const c=S.compsigns.get(v.dataset.cvoid);if(!c)return;await writeCompSign({...c,voided:true,voidedAt:new Date().toISOString()});toast('Godkjenningen er trukket tilbake')});return}
+  if(sgn){openCompSV(sgn.dataset.sign,Number(sgn.dataset.l));return}
+  if(h){S.cOpen=S.cOpen===h.dataset.ct?null:h.dataset.ct;renderComp()}
+});
+function openCompSV(taskId,level){
+  if(!S.profile.operator){toast('Legg inn ditt fulle navn under Rapporter → Profil først','e');return}
+  const t=taskById(taskId);if(!t)return;
+  const o=taskStats().get(taskId);
+  S.svComp={taskId,level};setSvMode('comp');
+  $('#sv-op').textContent=S.profile.operator;$('#sv-emp').textContent=empLine(S.profile.employer,S.profile.client,'');
+  $('#sv-per').textContent=t.name;$('#sv-tot').textContent=LV[level];
+  const atOrAbove=o?o.by.slice(level).reduce((a,b)=>a+b,0):0;
+  $('#sv-cinfo').innerHTML=`${t.desc?`<div><b>Oppgaven:</b> ${esc(t.desc)}</div>`:''}
+    <div class="cindep"><b>${LV[level]} betyr:</b> ${esc(lvText(t,level))}</div>
+    <div>${o?`Logget <b>${o.count}</b> gang${o.count===1?'':'er'} mellom ${dmy(o.first)} og ${dmy(o.last)}: ${[1,2,3,4].map(l=>`${LV[l].toLowerCase()} ${o.by[l]}`).join(' · ')}.`:'Oppgaven er ikke logget i loggboka ennå.'}</div>
+    ${atOrAbove?'':`<div class="warn">Ikke logget på nivået «${LV[level]}» ennå. Godkjenn bare hvis du selv har sett det.</div>`}
+    ${o?`<div class="scroll" style="border:1px solid var(--line);border-radius:4px;max-height:30vh"><table><thead><tr><th>Dato</th><th>Nivå</th><th>Kommentar</th></tr></thead><tbody>${o.hist.slice(0,8).map(x=>`<tr><td class="num" style="white-space:nowrap">${dmy(x.date)}</td><td>${LV[x.l]}</td><td>${esc(x.notes)||'–'}</td></tr>`).join('')}</tbody></table></div>`:''}`;
+  svShow(S.profile.client||'');
+}
+async function signComp(){
+  const sup=$('#s-name').value.trim(),err=m=>{const el=$('#ss-err');el.textContent=m;el.hidden=false};
+  const {taskId,level}=S.svComp||{},t=taskById(taskId);
+  if(!t||!sup){closeStage();return sErr('Sjekk navnet og prøv igjen.')}
+  if(pad.strokes.flat().length<6||inkLength()<80)return err('Signaturen er for kort. Signer med fullt navn eller initialer i feltet.');
+  const btn=$('#ss-go');btn.disabled=true;
+  try{
+    const o=taskStats().get(taskId),sig=exportSig();
+    const c={id:newId('c'),taskId,taskName:t.name,taskCat:t.cat||'',level,operator:S.profile.operator,employer:S.profile.employer||'',client:S.profile.client||'',
+      supervisor:sup,role:$('#s-role').value.trim(),supCompany:$('#s-comp').value.trim(),signedAt:new Date().toISOString(),
+      count:o?.count||0,countAtLevel:o?o.by.slice(level).reduce((a,b)=>a+b,0):0,first:o?.first||'',last:o?.last||'',sig:sig.data,sigW:sig.w,sigH:sig.h,voided:false};
+    c.hash=await sha(canon(compPayload(c)));
+    await writeCompSign(c);
+    pad.strokes=[];closeStage();try{navigator.vibrate?.(40)}catch(e){}
+    const first=(S.profile.operator||'').split(' ')[0]||'operatøren';
+    $('#sv-done-txt').textContent=`«${t.name}» er godkjent som ${LV[level].toLowerCase()}. Takk, ${sup.split(' ')[0]}! Gi telefonen tilbake til ${first}.`;
+    $('#sv-done-sig').src=c.sig;
+    $('#sv-form').hidden=true;$('#sv-foot').hidden=true;$('#sv-done').hidden=false;
+  }catch(e){err('Noe gikk galt under lagring. Prøv igjen.')}
+  finally{btn.disabled=false}
+}
+
+/* erfaringssammendrag */
+function experience(){
+  const all=[...S.entries.values()].sort(byDate),lk=lockMap();
+  const byKey=(f)=>{const m=new Map();all.forEach(e=>{const k=(f(e)||'').trim();if(k)m.set(k,(m.get(k)||0)+e.hours)});return[...m.entries()].sort((a,b)=>b[1]-a[1])};
+  const nums=f=>all.map(f).map(num).filter(n=>!isNaN(n));
+  const wd=nums(e=>e.waterDepth),bd=nums(e=>e.burialDepth),days=new Set(all.map(e=>e.date));
+  const sm=compSignMap(),act=activeTasks(),st=taskStats();
+  return{all,first:all[0]?.date,last:all[all.length-1]?.date,days:days.size,total:sum(all),drive:sum(all.filter(e=>DRIVE.has(e.activity))),signed:sum(all.filter(e=>lk.has(e.id))),
+    acts:ACTS.map(a=>[a,sum(all.filter(e=>e.activity===a))]).filter(x=>x[1]>0),
+    vessels:byKey(e=>e.vessel),projects:byKey(e=>e.project),clients:byKey(e=>e.client),equip:byKey(e=>e.equipment),soils:byKey(e=>e.soil),
+    maxWD:wd.length?Math.max(...wd):null,maxBD:bd.length?Math.max(...bd):null,tech:all.filter(e=>e.waterDepth||e.burialDepth||e.soil).length,
+    indep:act.filter(t=>maxSigned(sm.get(t.id))>=4).length,anyLogged:act.filter(t=>st.has(t.id)).length,nTasks:act.length,nComp:[...S.compsigns.values()].filter(c=>!c.voided).length};
+}
+const listH=(arr)=>arr.length?arr.map(([k,v])=>`${esc(k)} (${fmt(v)} t)`).join(', '):'–';
+function renderSummary(){
+  const x=experience();
+  if(!x.all.length){$('#c-sum').innerHTML='<div class="empty">Sammendraget fylles ut når du har registrert timer.</div>';return}
+  $('#c-sum').innerHTML=`<div class="sum" style="border:0;border-bottom:1px solid var(--line-2);border-radius:0">
+      <div><span>Timer totalt</span><b>${fmt(x.total)}<small>t</small></b></div><div><span>Kjøretid</span><b>${fmt(x.drive)}<small>t</small></b></div>
+      <div><span>Vakter</span><b>${x.days}</b></div><div><span>Selvstendig godkjent</span><b>${x.indep}<small>/ ${x.nTasks}</small></b></div></div>
+    <div class="card-b"><dl class="kvl" style="margin:0">
+      <dt>Periode</dt><dd>${dmy(x.first)} – ${dmy(x.last)}</dd>
+      <dt>Aktiviteter</dt><dd>${listH(x.acts)}</dd>
+      <dt>Godkjente timer</dt><dd>${fmt(x.signed)} av ${fmt(x.total)} t</dd>
+      <dt>Fartøy</dt><dd>${listH(x.vessels)}</dd>
+      <dt>Oppdragsgivere</dt><dd>${listH(x.clients)}</dd>
+      <dt>Prosjekter</dt><dd>${listH(x.projects)}</dd>
+      <dt>Utstyr</dt><dd>${listH(x.equip)}</dd>
+      <dt>Jordtyper</dt><dd>${listH(x.soils)}</dd>
+      <dt>Største dybder</dt><dd>${x.maxWD!=null?`vann ${fmt(x.maxWD)} m`:''}${x.maxWD!=null&&x.maxBD!=null?' · ':''}${x.maxBD!=null?`graving ${fmt(x.maxBD)} m`:''}${x.maxWD==null&&x.maxBD==null?'–':''}</dd>
+      <dt>Kompetanse</dt><dd>${x.anyLogged} av ${x.nTasks} oppgaver logget · ${x.nComp} supervisor-godkjenninger</dd>
+    </dl>
+    ${x.tech<x.all.length/2?`<p class="tip">Bare ${x.tech} av ${x.all.length} registreringer har tekniske data. Fyll inn vanndybde, gravedybde og jordtype oftere, så blir sammendraget sterkere på CV.</p>`:''}</div>`;
+}
+
+/* rediger oppgaveliste */
+function renderTaskEdit(){
+  $('#c-tedit').innerHTML=S.tedit.map((t,i)=>`<div class="tedit${t.hidden?' off':''}" data-i="${i}"><input class="te-name" value="${esc(t.name)}" aria-label="Oppgavenavn"><input class="te-cat" value="${esc(t.cat||'')}" list="dl-tcat" aria-label="Kategori"><button class="btn alt small" type="button" data-hide="${i}">${t.hidden?'Vis':'Skjul'}</button><textarea class="te-desc" rows="2" placeholder="Hva oppgaven er" aria-label="Beskrivelse">${esc(t.desc||'')}</textarea><input class="te-sel" value="${esc(t.sel||'')}" placeholder="Selvstendig når …" aria-label="Kriterium for selvstendig"></div>`).join('');
+  $('#dl-tcat').innerHTML=[...new Set(S.tedit.map(t=>t.cat).filter(Boolean))].map(c=>`<option value="${esc(c)}">`).join('');
+}
+function readTaskEdit(){document.querySelectorAll('#c-tedit .tedit').forEach(r=>{const t=S.tedit[Number(r.dataset.i)];t.name=r.querySelector('.te-name').value.trim()||t.name;t.cat=r.querySelector('.te-cat').value.trim();t.desc=r.querySelector('.te-desc').value.trim();t.sel=r.querySelector('.te-sel').value.trim()})}
+$('#c-edit-btn').onclick=()=>{const open=$('#c-edit').hidden;$('#c-edit').hidden=!open;$('#c-edit-info').hidden=open;$('#c-edit-btn').textContent=open?'Lukk':'Rediger';if(open){S.tedit=S.comp.tasks.map(t=>({...t}));renderTaskEdit()}else renderComp()};
+$('#c-tedit').addEventListener('click',ev=>{const b=ev.target.closest('[data-hide]');if(!b)return;readTaskEdit();const t=S.tedit[Number(b.dataset.hide)];t.hidden=!t.hidden;renderTaskEdit()});
+$('#te-add').onclick=()=>{const n=$('#te-new-name').value.trim();if(!n){$('#te-new-name').focus();return}readTaskEdit();S.tedit.push({id:newId('t-'),name:n,cat:$('#te-new-cat').value.trim()||'Annet'});$('#te-new-name').value='';renderTaskEdit();$('#te-new-name').focus()};
+$('#te-new-name').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#te-add').click()}});
+$('#te-cancel').onclick=()=>{$('#c-edit').hidden=true;$('#c-edit-info').hidden=false;$('#c-edit-btn').textContent='Rediger';renderComp()};
+$('#te-save').onclick=async()=>{readTaskEdit();S.comp={tasks:S.tedit.map(t=>({id:t.id,name:t.name,cat:t.cat||'Annet',desc:t.desc||'',sel:t.sel||'',...(t.hidden?{hidden:true}:{})})),custom:true};$('#c-edit').hidden=true;$('#c-edit-info').hidden=false;$('#c-edit-btn').textContent='Rediger';renderFormTasks();await saveComp();toast('Oppgavelisten er lagret')};
+
+$('#c-pdf').onclick=async ev=>{const b=ev.currentTarget;b.disabled=true;try{await download(`CapJet-kompetanse_${today()}.pdf`,await pdfComp())}catch(e){toast('Klarte ikke å lage PDF. Sjekk nettforbindelsen og prøv igjen.','e')}finally{b.disabled=false}};
+
 /* ---------- rapporter ---------- */
 async function renderReports(){
   const list=[...S.signoffs.values()].sort((a,b)=>b.signedAt.localeCompare(a.signedAt));
@@ -1328,7 +1802,7 @@ async function renderReports(){
       <td class="num">${esc(new Date(s.signedAt).toLocaleDateString('no-NO'))}</td><td class="r num">${fmt2(s.total)}</td>
       <td><span class="st ${s.voided?'void':'ok'}" data-ver>${s.voided?'Trukket':'Kontrollerer'}</span><br><span class="code muted" style="font-size:12px">${esc(code(s.hash))}</span></td>
       <td>${s.sig?`<img class="sigimg" src="${esc(s.sig)}" alt="Signatur ${esc(s.supervisor)}">`:''}</td>
-      <td style="white-space:nowrap"><button class="btn alt small" data-pdf="${esc(s.id)}">PDF</button>${s.voided?'':` <button class="btn link small" data-void="${esc(s.id)}">Trekk tilbake</button>`}</td></tr>`).join('')
+      <td style="white-space:nowrap"><button class="btn alt small" data-pdf="${esc(s.id)}">PDF</button>${s.voided?` <button class="btn danger small" data-sdel="${esc(s.id)}">Slett</button>`:` <button class="btn link small" data-void="${esc(s.id)}">Trekk tilbake</button>`}</td></tr>`).join('')
   }</tbody></table></div>`;
   for(const s of list){
     if(s.voided)continue;
@@ -1338,6 +1812,8 @@ async function renderReports(){
   }
 }
 $('#r-list').addEventListener('click',ev=>{
+  const del=ev.target.closest('[data-sdel]');
+  if(del){twoStep(del,'Bekreft sletting',async()=>{const id=del.dataset.sdel,s=S.signoffs.get(id);if(!s||!s.voided)return;S.signoffs.delete(id);delete S.pending.s[id];S.pending.ds=S.pending.ds||{};S.pending.ds[id]=1;if(S.lastSigned===id)S.lastSigned=null;await persist();toast('Den tilbaketrukne godkjenningen er slettet')});return}
   const v=ev.target.closest('[data-void]');
   if(v)twoStep(v,'Bekreft',async()=>{const s=S.signoffs.get(v.dataset.void);if(!s)return;await writeSignoff({...s,voided:true,voidedAt:new Date().toISOString()});toast('Godkjenningen er trukket tilbake')});
 });
@@ -1358,15 +1834,15 @@ async function download(filename,data){
   setTimeout(()=>URL.revokeObjectURL(a.href),8000);toast('Lagret '+filename);return true;
 }
 async function backup(){
-  const ok=await download(`capjet-loggbok_${today()}.json`,JSON.stringify({app:'capjet-loggbok',version:2,exportedAt:new Date().toISOString(),profile:S.profile,entries:[...S.entries.values()].sort(byDate),signoffs:[...S.signoffs.values()]},null,2));
+  const ok=await download(`capjet-loggbok_${today()}.json`,JSON.stringify({app:'capjet-loggbok',version:2,exportedAt:new Date().toISOString(),profile:S.profile,entries:[...S.entries.values()].sort(byDate),signoffs:[...S.signoffs.values()],comp:S.comp,compsigns:[...S.compsigns.values()]},null,2));
   if(ok){S.meta.lastBackup=new Date().toISOString();saveCache();renderBackup()}
 }
 $('#bk-go').onclick=backup;
 $('#x-json').onclick=backup;
 $('#x-csv').onclick=()=>{
   const lk=lockMap(),q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
-  const rows=[['Dato','Uke','Oppdragsgiver','Fartøy','Prosjekt','Utstyr','Aktivitet','Timer','Vanndybde (m)','Gravedybde (m)','Jordtype','Kommentar','Godkjent av','Verifikasjonskode']];
-  [...S.entries.values()].sort(byDate).forEach(e=>{const s=lk.get(e.id);rows.push([dmy(e.date),isoWeek(e.date),e.client||'',e.vessel,e.project,e.equipment,e.activity,fmt(e.hours),e.waterDepth,e.burialDepth,e.soil,e.notes,s?.supervisor||'',s?code(s.hash):''])});
+  const rows=[['Dato','Uke','Oppdragsgiver','Fartøy','Prosjekt','Utstyr','Aktivitet','Timer','Vanndybde (m)','Gravedybde (m)','Jordtype','Kommentar','Oppgaver','Godkjent av','Verifikasjonskode']];
+  [...S.entries.values()].sort(byDate).forEach(e=>{const s=lk.get(e.id);rows.push([dmy(e.date),isoWeek(e.date),e.client||'',e.vessel,e.project,e.equipment,e.activity,fmt(e.hours),e.waterDepth,e.burialDepth,e.soil,e.notes,taskSummary(e),s?.supervisor||'',s?code(s.hash):''])});
   download(`capjet-loggbok_${today()}.csv`,'﻿'+rows.map(r=>r.map(q).join(';')).join('\r\n'));
 };
 $('#x-pdf').onclick=async ev=>{const b=ev.currentTarget;if(!S.entries.size){toast('Loggen er tom – registrer timer først.','e');return}b.disabled=true;try{await download(`CapJet-logg_komplett_${today()}.pdf`,await pdfFull())}catch(e){toast('Klarte ikke å lage PDF. Sjekk nettforbindelsen og prøv igjen.','e')}finally{b.disabled=false}};
@@ -1377,6 +1853,8 @@ $('#imp').addEventListener('change',async ev=>{
     const d=JSON.parse(await f.text());if(!Array.isArray(d.entries))throw 0;
     let add=0,skip=0;
     for(const x of d.entries){if(!x||!/^\d{4}-\d{2}-\d{2}/.test(String(x.date))||!(num(x.hours)>0)){skip++;continue}const id=String(x.id||newId('e'));if(S.entries.has(id)){skip++;continue}S.entries.set(id,normEntry({...x,id}));S.pending.e[id]=1;add++}
+    if(Array.isArray(d.compsigns))for(const c of d.compsigns){if(c?.id&&c.hash&&!S.compsigns.has(c.id)){S.compsigns.set(c.id,c);S.pending.cs[c.id]=1}}
+    if(d.comp?.tasks?.length&&!S.comp.custom){S.comp=upgradeComp({tasks:d.comp.tasks,custom:true});S.pending.c=true}
     let sg=0;if(Array.isArray(d.signoffs))for(const s of d.signoffs){if(s?.id&&Array.isArray(s.rows)&&s.hash&&!S.signoffs.has(s.id)){S.signoffs.set(s.id,s);S.pending.s[s.id]=1;sg++}}
     if(d.profile&&!S.profile.operator&&d.profile.operator){S.profile={operator:String(d.profile.operator),employer:String(d.profile.employer||S.profile.employer),client:String(d.profile.client||S.profile.client||''),vessel:String(d.profile.vessel||''),equipment:String(d.profile.equipment||'')};S.pending.p=true}
     await persist();
@@ -1420,7 +1898,7 @@ function pdfTotals(doc,rows,y){
   return y+8;
 }
 function pdfFooter(doc,left,run){const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(110,120,132);doc.text(left,M,290);doc.text(`Side ${i} av ${n}`,M+PW,290,{align:'right'});if(i>1&&run){doc.text(run,M,10);doc.setDrawColor(217,222,229);doc.line(M,12,M+PW,12)}}}
-const rowCells=r=>{const o=r.orig??r.origHours;return[dmy(r.date),r.vessel,r.project,r.equipment,r.activity,fmt2(r.hours)+(o!=null?' *':''),[r.notes,detail(r),o!=null?`Justert av supervisor fra ${fmt2(o)} t`:''].filter(Boolean).join(' - ')]};
+const rowCells=r=>{const o=r.orig??r.origHours;return[dmy(r.date),r.vessel,r.project,r.equipment,r.activity,fmt2(r.hours)+(o!=null?' *':''),[r.notes,detail(r),Object.keys(r.tasks||{}).length?'Oppgaver: '+taskSummary(r):'',o!=null?`Justert av supervisor fra ${fmt2(o)} t`:''].filter(Boolean).join(' - ')]};
 async function pdfSignoff(s){
   const J=await loadPdf();const doc=new J({unit:'mm',format:'a4'});
   let y=pdfHead(doc,'Godkjent timeliste',[['Operatør',s.operator],['Arbeidsgiver',s.employer],['Innleid til',s.client||clientsOf(s.rows)],['Periode',`${dmy(s.from)} - ${dmy(s.to)}`],['Rapport-ID',code(s.hash)]]);
@@ -1473,8 +1951,55 @@ async function pdfFull(){
   return doc.output('blob');
 }
 
+
+function pdfSec(doc,title,y){if(y>258){doc.addPage();y=20}doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(29,39,51);doc.text(title,M,y);doc.setDrawColor(217,222,229);doc.line(M,y+2,M+PW,y+2);return y+8}
+async function pdfComp(){
+  const J=await loadPdf();const doc=new J({unit:'mm',format:'a4'});const x=experience();
+  let y=pdfHead(doc,'Kompetanse og erfaring',[['Operatør',S.profile.operator],['Arbeidsgiver',S.profile.employer],['Innleid til',listH(x.clients).replace(/ \([^)]*\)/g,'')||S.profile.client],['Periode',x.first?`${dmy(x.first)} - ${dmy(x.last)}`:'-'],['Generert',new Date().toLocaleDateString('no-NO')]]);
+  y=pdfSec(doc,'Erfaring',y);
+  const kv=[['Timer totalt',`${fmt2(x.total)} t over ${x.days} vakter (${fmt2(x.signed)} t godkjent av supervisor)`],['Kjøretid',`${fmt2(x.drive)} t (aktiv kjøring + under veiledning)`],['Aktiviteter',listH(x.acts)],['Fartøy',listH(x.vessels)],['Prosjekter',listH(x.projects)],['Utstyr',listH(x.equip)],['Jordtyper',listH(x.soils)],['Største dybder',[x.maxWD!=null?`vann ${fmt(x.maxWD)} m`:'',x.maxBD!=null?`graving ${fmt(x.maxBD)} m`:''].filter(Boolean).join(', ')||'-']];
+  doc.setFontSize(9);
+  for(const [k,v] of kv){const lines=doc.splitTextToSize(v.replace(/–/g,'-'),PW-38);if(y+lines.length*4.2>280){doc.addPage();y=20}doc.setFont('helvetica','bold');doc.text(k,M,y);doc.setFont('helvetica','normal');doc.text(lines,M+38,y);y+=lines.length*4.2+1.8}
+  y+=4;y=pdfSec(doc,'Kompetanseoppgaver',y);
+  const st=taskStats(),sm=compSignMap(),tasks=shownTasks(st);
+  const rows=[];for(const [cat,list] of groupByCat(tasks))for(const t of list){const o=st.get(t.id),sg=sm.get(t.id),ms=maxSigned(sg),c=ms?sg[ms]:null;
+    rows.push([t.name,cat,o?String(o.count):'0',o?LV[o.max]:'-',ms?LV[ms]:'-',c?`${c.supervisor}, ${new Date(c.signedAt).toLocaleDateString('no-NO')}`:'-'])}
+  y=pdfTable(doc,[{h:'Oppgave',w:52},{h:'Kategori',w:28},{h:'Logget',w:13,r:1},{h:'Høyeste logget',w:25},{h:'Godkjent nivå',w:25},{h:'Godkjent av',w:39}],rows,y);
+  const cs=[...S.compsigns.values()].filter(c=>!c.voided).sort((a,b)=>a.signedAt.localeCompare(b.signedAt));
+  if(cs.length){
+    y+=8;y=pdfSec(doc,'Supervisor-godkjenninger',y);
+    for(const c of cs){
+      if(y+22>280){doc.addPage();y=20}
+      doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(`${c.taskName}: ${LV[c.level]}`,M,y+4,{maxWidth:PW-55});
+      doc.setFont('helvetica','normal');doc.setFontSize(8.5);
+      doc.text(`${c.supervisor}${supLine(c)?', '+supLine(c):''}`,M,y+9,{maxWidth:PW-55});
+      doc.text(`${new Date(c.signedAt).toLocaleDateString('no-NO')} · logget ${c.count} ganger før godkjenning · kode ${code(c.hash)}`,M,y+13.5,{maxWidth:PW-55});
+      if(c.sig){const k=Math.min(48/c.sigW,15/c.sigH);doc.addImage(c.sig,'PNG',M+PW-c.sigW*k,y+1,c.sigW*k,c.sigH*k,undefined,'FAST')}
+      doc.setDrawColor(236,239,243);doc.line(M,y+17,M+PW,y+17);y+=20;
+    }
+  }
+  const withDesc=tasks.filter(t=>t.desc||t.sel);
+  if(withDesc.length){
+    y+=8;y=pdfSec(doc,'Oppgavebeskrivelser',y);
+    for(const t of withDesc){
+      doc.setFontSize(8.5);const dl=doc.splitTextToSize(t.desc||'',PW),sl=t.sel?doc.splitTextToSize('Selvstendig når: '+t.sel,PW):[];
+      const hh=4.5+(dl.length+sl.length)*3.8+3;if(y+hh>280){doc.addPage();y=20}
+      doc.setFont('helvetica','bold');doc.setTextColor(29,39,51);doc.text(t.name,M,y);y+=4.2;
+      doc.setFont('helvetica','normal');doc.setTextColor(60,70,82);if(dl.length){doc.text(dl,M,y);y+=dl.length*3.8}
+      if(sl.length){doc.setTextColor(29,122,69);doc.text(sl,M,y);y+=sl.length*3.8}
+      y+=3;
+    }
+    doc.setTextColor(29,39,51);
+  }
+  if(y>250){doc.addPage();y=20}
+  y+=6;doc.setFontSize(7.5);doc.setTextColor(102,113,126);
+  doc.text('Nivåer: Observert = har sett oppgaven utført. Med hjelp = utført med aktiv hjelp. Under tilsyn = utført selv med operatør eller supervisor til stede. Selvstendig = utført uten hjelp. En godkjenning er supervisors vurdering på signeringstidspunktet og er ikke i seg selv en formell sertifisering. Timer og oppgaver er registrert av operatøren selv.',M,y,{maxWidth:PW});
+  pdfFooter(doc,`CapJet Loggbok · ${S.profile.operator||''}`,`Kompetanse og erfaring · ${S.profile.operator||''}`);
+  return doc.output('blob');
+}
+
 /* ---------- routing & oppstart ---------- */
-const VIEWS=['logg','signer','rapporter'];
+const VIEWS=['logg','signer','kompetanse','rapporter'];
 function route(){
   const v=VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):'logg';
   VIEWS.forEach(x=>$('#v-'+x).hidden=x!==v);
@@ -1482,7 +2007,7 @@ function route(){
   if(v==='signer'){if(!$('#s-from').value)defaultPeriod();renderSigner();requestAnimationFrame(sizePad)}
 }
 addEventListener('hashchange',()=>{route();scrollTo(0,0)});
-function render(){renderStats();renderLists();renderWeek();renderSigner();renderReports();renderProfile();renderReceipt();renderSync()}
+function render(){renderStats();renderLists();renderWeek();renderSigner();renderReports();renderProfile();renderReceipt();renderComp();renderSync()}
 
 loadCache();resetForm();prefill();render();route();
 $('#su').addEventListener('submit',ev=>{
