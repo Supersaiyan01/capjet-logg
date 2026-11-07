@@ -86,6 +86,11 @@ h2{font-size:15px;font-weight:700;margin:0}
 @media (max-width:360px){.nav a{font-size:12.5px}}
 main .wrap{padding-block:20px 48px}
 /* uke/måned */
+.sv-body .sv-in{grid-template-columns:minmax(0,1fr)}
+.sv-body .sv-in>*{min-width:0}
+.svbar-r{display:flex;gap:2px;align-items:center}
+.rl-wrap{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
+.rl-wrap .muted{font-size:13px}
 .navrow{display:flex;align-items:center;gap:8px;flex-basis:100%;min-width:0}
 .navrow .wk{flex:0 1 auto;min-width:0}
 .seg2{display:inline-flex;border:1px solid var(--field-line);border-radius:4px;overflow:hidden;flex:none}
@@ -540,7 +545,7 @@ img{max-width:100%}
     <div id="c-list"></div>
   </div>
   <div class="card">
-    <div class="card-h"><h2>Erfaringssammendrag</h2><button class="btn small" type="button" id="c-pdf">PDF: Kompetanse og erfaring</button></div>
+    <div class="card-h"><h2>Erfaringssammendrag</h2><span class="rl-wrap"><span class="muted">Rapportspråk</span><span class="seg2" role="group" aria-label="Rapportspråk"><button type="button" data-rl="no">Norsk</button><button type="button" data-rl="en">English</button></span><button class="btn small" type="button" id="c-pdf">PDF: Kompetanse og erfaring</button></span></div>
     <div id="c-sum"></div>
   </div>
   <div class="card">
@@ -569,7 +574,7 @@ img{max-width:100%}
     <div id="r-list"></div>
   </div>
   <div class="card">
-    <div class="card-h"><h2>Eksport</h2></div>
+    <div class="card-h"><h2>Eksport</h2><span class="rl-wrap"><span class="muted">Rapportspråk</span><span class="seg2" role="group" aria-label="Rapportspråk"><button type="button" data-rl="no">Norsk</button><button type="button" data-rl="en">English</button></span></span></div>
     <div class="card-f" style="border-top:0">
       <button class="btn" type="button" id="x-pdf">Hele loggen (PDF)</button>
       <button class="btn alt" type="button" id="x-csv">Excel (CSV)</button>
@@ -592,7 +597,7 @@ img{max-width:100%}
     <div class="card-f"><button class="btn" type="submit">Lagre profil</button></div>
   </form>
   <div class="card help">
-    <div class="card-h"><h2>Slik bruker du loggboka</h2><span class="ver">Versjon 1.1</span></div>
+    <div class="card-h"><h2>Slik bruker du loggboka</h2><span class="ver">Versjon 1.2</span></div>
     <div class="card-b">
       <ol>
         <li><b>Legg den på hjemskjermen.</b> iPhone: åpne lenken i Safari → Del → Legg til på Hjem-skjerm. Android: Chrome → ⋮ → Legg til på startskjermen. Da virker den også uten nett.</li>
@@ -601,6 +606,7 @@ img{max-width:100%}
         <li><b>Få godkjent.</b> Godkjenning → velg periode → Gi til supervisor. Supervisor kan justere timer, skriver navn og signerer med fingeren, gjerne med telefonen sidelengs. Med «Måned» i Timer kan hele måneden godkjennes på én gang.</li>
         <li><b>Bygg kompetanse.</b> Under Kompetanse ser du hvor langt du har kommet på hver oppgave og kan få supervisor til å godkjenne nivåer. «PDF: Kompetanse og erfaring» er dokumentet du legger ved jobbsøknader. Oppgavelisten er et utkast du kan endre under Oppgaveliste → Rediger.</li>
         <li><b>Ta sikkerhetskopi etter hver tur.</b> Rapporter → Ta sikkerhetskopi, og send filen til deg selv på e-post. Ny telefon: åpne appen og trykk Importer.</li>
+        <li><b>English.</b> Velg «English» under Rapporter → Eksport for engelske PDF-er. Supervisor-skjermen har en English-knapp øverst for supervisorer som ikke leser norsk.</li>
         <li><b>Skriv ut.</b> Last ned PDF og velg Skriv ut. Rapportene har marg til hullemaskin.</li>
       </ol>
       <ul class="muted">
@@ -615,30 +621,30 @@ img{max-width:100%}
 </div></main>
 
 <div class="sv" id="sv" hidden role="dialog" aria-modal="true" aria-labelledby="sv-title">
-  <div class="sv-bar"><div class="sv-in"><b id="sv-title">Godkjenning av timer</b><button class="btn link" type="button" id="sv-close">Avbryt</button></div></div>
+  <div class="sv-bar"><div class="sv-in"><b id="sv-title">Godkjenning av timer</b><span class="svbar-r"><button class="btn link" type="button" id="sv-lang" aria-label="Bytt språk / Switch language">English</button><button class="btn link" type="button" id="sv-close">Avbryt</button></span></div></div>
   <div class="sv-body" id="sv-form"><div class="sv-in">
     <div class="sv-sum">
-      <div><span>Operatør</span><b id="sv-op"></b><span id="sv-emp"></span></div>
+      <div><span id="sv-l1">Operatør</span><b id="sv-op"></b><span id="sv-emp"></span></div>
       <div><span id="sv-l2">Periode</span><b id="sv-per" class="num"></b></div>
       <div class="tot"><span id="sv-l3">Timer til godkjenning</span><b id="sv-tot"></b></div>
     </div>
-    <details class="sv-list" open><summary id="sv-cnt">Kontroller timene</summary><p class="adj-hint">Bruk − og + eller skriv inn riktig antall timer. Sett 0 for å holde en registrering utenfor godkjenningen.</p><div class="scroll" id="sv-rows"></div></details>
+    <details class="sv-list" open><summary id="sv-cnt">Kontroller timene</summary><p class="adj-hint" id="sv-hint">Bruk − og + eller skriv inn riktig antall timer. Sett 0 for å holde en registrering utenfor godkjenningen.</p><div class="scroll" id="sv-rows"></div></details>
     <div id="sv-cinfo" hidden></div>
-    <div class="fld"><span>Ditt navn</span>
+    <div class="fld"><span id="sv-lname">Ditt navn</span>
       <div class="chips" id="sv-sups"></div>
       <input id="s-name" list="dl-sup" autocomplete="off" placeholder="Fullt navn" enterkeyhint="next">
     </div>
     <div class="grid2">
-      <label class="fld"><span>Stilling</span><input id="s-role" list="dl-role" placeholder="Operation Supervisor" enterkeyhint="next"></label>
-      <label class="fld"><span>Selskap</span><input id="s-comp" list="dl-client" placeholder="Nexans" enterkeyhint="done"></label>
+      <label class="fld"><span id="sv-lrole">Stilling</span><input id="s-role" list="dl-role" placeholder="Operation Supervisor" enterkeyhint="next"></label>
+      <label class="fld"><span id="sv-lcomp">Selskap</span><input id="s-comp" list="dl-client" placeholder="Nexans" enterkeyhint="done"></label>
     </div>
     <p class="decl" id="sv-decl">Ved å signere bekrefter du at du har kontrollert timene, og at de etter din kjennskap gir et riktig bilde av arbeidet som er utført.</p>
     <p class="err" id="s-err" hidden></p>
   </div></div>
-  <div class="sv-foot" id="sv-foot"><div class="sv-in"><button class="btn big wide" type="button" id="sv-go">Signer</button><p class="hint-c">Signaturfeltet åpnes i stor skjerm. Legg gjerne telefonen sidelengs.</p></div></div>
+  <div class="sv-foot" id="sv-foot"><div class="sv-in"><button class="btn big wide" type="button" id="sv-go">Signer</button><p class="hint-c" id="sv-hintc">Signaturfeltet åpnes i stor skjerm. Legg gjerne telefonen sidelengs.</p></div></div>
   <div class="sv-done" id="sv-done" hidden><div class="in">
     <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-    <h2>Godkjent</h2>
+    <h2 id="sv-done-h">Godkjent</h2>
     <img id="sv-done-sig" class="done-sig" alt="Signaturen">
     <p id="sv-done-txt"></p>
     <button class="btn big" type="button" id="sv-finish">Ferdig</button>
@@ -1142,6 +1148,51 @@ function defaultTasks(){return [
 ].map(([id,name,cat,desc,sel])=>({id,name,cat,desc,sel}))}
 const LVD=['','Du har sett oppgaven utført og kan forklare stegene og hvorfor de gjøres.','Du gjør deler av oppgaven selv, men noen må hjelpe aktivt eller ta over underveis.','Du gjør hele oppgaven selv, mens operatør eller supervisor står ved siden av og er klar til å gripe inn.','Du gjør oppgaven alene, trygt og riktig, uten at noen må hjelpe eller rette.'];
 const lvText=(t,l)=>l===4&&t?.sel?t.sel:LVD[l];
+/* ---------- språk: rapporter (PL) og supervisor-skjerm (svLang) ---------- */
+let PL=null;
+const ACT_EN={'Aktiv kjøring':'Operating CapJet','Kjøring under veiledning':'Operating under guidance','Observasjon / opplæring':'Observation / training','Vedlikehold / ombygging':'Maintenance / modification','Annet':'Other'};
+const LV_EN=['','Observed','Assisted','Supervised','Independent'],LVS_EN=['','O','A','S','I'];
+const LVD_EN=['','You have seen the task performed and can explain the steps and why they are done.','You perform parts of the task yourself, but someone has to assist actively or take over.','You perform the whole task yourself, with an operator or supervisor standing by ready to step in.','You perform the task alone, safely and correctly, without anyone having to help or correct you.'];
+const CAT_EN={'Forberedelse':'Preparation','Sjøsetting og opptak':'Launch and recovery','Kjøring':'Operation','Data og rapportering':'Data and reporting','Vedlikehold':'Maintenance','Annet':'Other'};
+const SOIL_EN={sand:'Sand',leire:'Clay',silt:'Silt',grus:'Gravel',morene:'Moraine / till',blandet:'Mixed'};
+const TASK_EN={
+ 't-predeploy':{name:'Pre-deployment check (hydraulics, electrics, sensors)',desc:'Go through the checklist before CapJet is deployed: hydraulic levels and leaks, electrical connections, cameras, lights, sensors and communication with the control room.',sel:'You complete the whole checklist alone, find and report deviations, and know what stops a deployment.'},
+ 't-jetsetup':{name:'Preparing jet swords and nozzles',desc:'Fit and adjust the jet swords for the planned burial depth, check the nozzles and that everything is secured before deployment.',sel:'You set up swords and nozzles correctly for the planned depth and soil type without help.'},
+ 't-sja':{name:'JSA / toolbox talk and work permit',desc:'Take part in, and later lead, the job safety analysis and toolbox talk before the operation. Know the work permits that apply.',sel:'You can lead a toolbox talk and identify the risks and mitigations for the operation.'},
+ 't-launch':{name:'LARS: launch',desc:'Operate the LARS / A-frame when CapJet is lifted outboard and lowered through the splash zone. You control the lift while the umbilical winch operator follows you. Requires close communication with the winch, deck crew and bridge, and judgement of weather and vessel motion.',sel:'You run the launch, lead communication with the winch operator and deck, and know when the operation must be stopped.'},
+ 't-recover':{name:'LARS: recovery and securing on deck',desc:'Bring CapJet up through the splash zone and onto deck with the LARS, land it in a controlled way and have it secured. The winch operator hauls in the umbilical in step with you.',sel:'You complete recovery and landing on deck safely, also in some sea, without anyone having to take over.'},
+ 't-umb':{name:'Umbilical winch during launch and recovery',desc:'Operate the umbilical winch while someone else operates the LARS. The winch must constantly watch and follow the LARS movement: pay out when the LARS goes out and down, and haul in when it comes up. The umbilical must neither get too tight nor have so much slack that it spools incorrectly onto the winch drum.',sel:'You follow the LARS through the whole launch and recovery with correct tension in the umbilical, so it spools correctly onto the drum, and you speak up or stop when something is not right.'},
+ 't-umbrun':{name:'Umbilical winch during operation',desc:'Control payout and haul-in of the umbilical while CapJet is on the seabed and both vessel and trencher are moving, so the umbilical neither gets tight nor forms loops.',sel:'You keep correct payout through a whole pass without needing correction.'},
+ 't-landing':{name:'Landing and positioning over the cable',desc:'Set CapJet down on the seabed over the cable with the correct heading and position before jetting starts.',sel:'You land and position over the cable without help from the operator.'},
+ 't-track':{name:'Cable tracking',desc:'Follow the cable with the tracking system, interpret the signals and keep CapJet centred over the cable.',sel:'You keep track through a whole pass and notice yourself when the signal becomes uncertain.'},
+ 't-jetpass':{name:'Jetting pass with depth control',desc:'Run a jetting pass: control speed, water pressure and sword depth so the cable reaches the target burial depth.',sel:'You run a whole pass and reach the target depth without the operator having to take over.'},
+ 't-current':{name:'Steering in current and difficult conditions',desc:'Hold heading and position in current, poor visibility or difficult seabed, and adjust as conditions change.',sel:'You handle changing conditions along the way without losing the cable or having to stop the pass.'},
+ 't-reburial':{name:'Additional passes / reburial',desc:'Run new passes where the first pass did not achieve enough depth, or rebury exposed cable.',sel:'You judge yourself whether a new pass is needed and carry it out.'},
+ 't-data':{name:'As-trenched data and reporting',desc:'Log depth, position (KP) and events during operation, and contribute to the as-trenched report.',sel:'You keep the data and report for a whole pass so they can be used without correction.'},
+ 't-handover':{name:'Shift log and handover',desc:'Keep the shift log and give a clear handover to the next shift: status, deviations and what has been done.',sel:'You give a complete handover that the next shift can continue from.'},
+ 't-nozzle':{name:'Replacing nozzles and hoses',desc:'Replace worn nozzles and hydraulic hoses according to procedure, and test afterwards.',sel:'You do the job correctly and safely according to procedure without help.'},
+ 't-fault':{name:'Fault finding, hydraulics / electrics',desc:'Find the cause of faults in the hydraulic or electrical system using drawings, measurements and systematic elimination.',sel:'You find and fix common faults yourself, and know when to escalate.'}
+};
+const isEn=l=>l==='en';
+const actL=(a,l)=>isEn(l)?(ACT_EN[a]||a):a;
+const lvL=(n,l)=>(isEn(l)?LV_EN:LV)[n]||'';
+const lvsL=(n,l)=>(isEn(l)?LVS_EN:LVS)[n]||'';
+const catL=(c,l)=>isEn(l)?(CAT_EN[c]||c):c;
+const soilL=(x,l)=>isEn(l)?(SOIL_EN[String(x).trim().toLowerCase()]||x):x;
+let _defMap=null;const defMap=()=>_defMap||(_defMap=new Map(defaultTasks().map(t=>[t.id,t])));
+function tx(t,f,l){const v=(t&&t[f])||'';if(!isEn(l)||!t)return v;const d=defMap().get(t.id),e=TASK_EN[t.id];return d&&e&&v===d[f]?e[f]:v}
+function taskNameL(id,stored,l){const t=taskById(id),nm=stored||t?.name||id;if(isEn(l)){const d=defMap().get(id),e=TASK_EN[id];if(d&&e&&nm===d.name)return e.name}return nm}
+const lvTextL=(t,n,l)=>isEn(l)?(n===4&&tx(t,'sel',l)?tx(t,'sel',l):LVD_EN[n]):lvText(t,n);
+const numL=(v,l)=>isEn(l)?String(v).replace(',','.'):String(v);
+function detailL(e,l){if(!isEn(l))return detail(e);const p=[];if(e.waterDepth)p.push('WD '+numL(e.waterDepth,l)+' m');if(e.burialDepth)p.push('BD '+numL(e.burialDepth,l)+' m');if(e.soil)p.push(soilL(e.soil,l));return p.join(' · ')}
+function taskSummaryL(e,l){return Object.entries(e.tasks||{}).map(([id,n])=>`${taskNameL(id,null,l)} (${lvsL(n,l)})`).join(', ')}
+const empLineL=(emp,cli,l)=>isEn(l)?[emp,cli?'contracted to '+cli:''].filter(Boolean).join(', '):empLine(emp,cli,'');
+const ldate=iso=>dmy(new Date(iso).toLocaleDateString('en-CA'));
+const ltime=iso=>new Date(iso).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+const repLang=()=>S.profile.reportLang==='en'?'en':'no';
+let svLang;try{svLang=localStorage.getItem('capjet-svlang')==='en'?'en':'no'}catch(e){svLang='no'}
+const SV=(no,en)=>svLang==='en'?en:no;
+const f2S=h=>(Math.round(h*100)/100).toLocaleString(svLang==='en'?'en-GB':'no-NO',{minimumFractionDigits:2,maximumFractionDigits:2});
 function upgradeComp(c){
   if(!c||!Array.isArray(c.tasks)||!c.tasks.length||!c.custom)return{tasks:defaultTasks(),custom:false};
   const d=new Map(defaultTasks().map(t=>[t.id,t]));
@@ -1156,8 +1207,8 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const today=()=>new Date().toLocaleDateString('en-CA');
 const newId=p=>p+(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2));
 const num=v=>{const n=parseFloat(String(v??'').replace(',','.').trim());return isFinite(n)?n:NaN};
-const fmt=h=>(Math.round(h*100)/100).toLocaleString('no-NO',{maximumFractionDigits:2});
-const fmt2=h=>(Math.round(h*100)/100).toLocaleString('no-NO',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmt=h=>(Math.round(h*100)/100).toLocaleString(PL==='en'?'en-GB':'no-NO',{maximumFractionDigits:2});
+const fmt2=h=>(Math.round(h*100)/100).toLocaleString(PL==='en'?'en-GB':'no-NO',{minimumFractionDigits:2,maximumFractionDigits:2});
 const dmy=d=>d?d.split('-').reverse().join('.'):'';
 const sum=list=>list.reduce((a,e)=>a+Number(e.hours||0),0);
 const byDate=(a,b)=>a.date.localeCompare(b.date)||String(a.createdAt||'').localeCompare(String(b.createdAt||''));
@@ -1446,10 +1497,10 @@ const INK='#1b2a6b';
 const portraitMQ=matchMedia('(orientation: portrait) and (max-width: 760px)');
 let rotPref=true;
 const isRot=()=>rotPref&&portraitMQ.matches;
-function applyRot(){$('#ss').classList.toggle('rot',isRot());$('#ss-rot').textContent=isRot()?'Signer stående':'Signer liggende';$('#ss-rot').hidden=!portraitMQ.matches}
+function applyRot(){$('#ss').classList.toggle('rot',isRot());$('#ss-rot').textContent=isRot()?SV('Signer stående','Sign upright'):SV('Signer liggende','Sign in landscape');$('#ss-rot').hidden=!portraitMQ.matches}
 function sizePad(){
   const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;
-  const a=w/h;if(pad.aspect&&pad.strokes.length&&Math.abs(a-pad.aspect)/pad.aspect>.15){pad.strokes=[];toast('Signaturfeltet endret form – signer på nytt')}
+  const a=w/h;if(pad.aspect&&pad.strokes.length&&Math.abs(a-pad.aspect)/pad.aspect>.15){pad.strokes=[];toast(SV('Signaturfeltet endret form – signer på nytt','The signature field changed shape – please sign again'))}
   pad.aspect=a;const d=window.devicePixelRatio||1;cv.width=Math.round(w*d);cv.height=Math.round(h*d);cx.setTransform(d,0,0,d,0,0);drawPad();
 }
 function drawStroke(c,s,W,H){
@@ -1516,19 +1567,39 @@ function openSV(){
   if(!rows.length){showErr(pre,'Det finnes ingen åpne timer i valgt periode.');return}
   if(!S.profile.operator){showErr(pre,'Legg inn ditt fulle navn under Rapporter → Profil først, så står det riktig på godkjenningen.');return}
   setSvMode('hours');
-  $('#sv-op').textContent=S.profile.operator;$('#sv-emp').textContent=empLine(S.profile.employer,clientsOf(rows)||S.profile.client,'');
+  $('#sv-op').textContent=S.profile.operator;$('#sv-emp').textContent=empLineL(S.profile.employer,clientsOf(rows)||S.profile.client,svLang);
   $('#sv-per').textContent=`${dmy(rows[0].date)} – ${dmy(rows[rows.length-1].date)}`;
   S.adj=new Map();renderSvRows();$('.sv-list').open=true;
   svShow(clientsOf(rows).split(', ')[0]||S.profile.client||'');
 }
 function setSvMode(m){
   S.svMode=m;const c=m==='comp';
-  $('#sv-title').textContent=c?'Godkjenning av kompetanse':'Godkjenning av timer';
-  $('#sv-l2').textContent=c?'Oppgave':'Periode';$('#sv-l3').textContent=c?'Nivå':'Timer til godkjenning';
+  $('#sv-title').textContent=c?SV('Godkjenning av kompetanse','Competence sign-off'):SV('Godkjenning av timer','Approval of hours');
+  $('#sv-l2').textContent=c?SV('Oppgave','Task'):SV('Periode','Period');$('#sv-l3').textContent=c?SV('Nivå','Level'):SV('Timer til godkjenning','Hours for approval');
   $('.sv-list').hidden=c;$('#sv-cinfo').hidden=!c;
-  $('#sv-decl').textContent=c?`Ved å signere bekrefter du at ${S.profile.operator||'operatøren'} etter din vurdering har utført oppgaven på dette nivået.`:'Ved å signere bekrefter du at du har kontrollert timene, og at de etter din kjennskap gir et riktig bilde av arbeidet som er utført.';
+  const op=S.profile.operator||SV('operatøren','the operator');
+  $('#sv-decl').textContent=c?SV(`Ved å signere bekrefter du at ${op} etter din vurdering har utført oppgaven på dette nivået.`,`By signing you confirm that, in your assessment, ${op} has performed the task at this level.`)
+    :SV('Ved å signere bekrefter du at du har kontrollert timene, og at de etter din kjennskap gir et riktig bilde av arbeidet som er utført.','By signing you confirm that you have checked the hours, and that to the best of your knowledge they give a correct picture of the work performed.');
 }
+function applySvLang(){
+  const t=(sel,no,en)=>{const el=$(sel);if(el)el.textContent=SV(no,en)};
+  t('#sv-lang','English','Norsk');t('#sv-close','Avbryt','Cancel');t('#sv-l1','Operatør','Operator');
+  t('#sv-hint','Bruk − og + eller skriv inn riktig antall timer. Sett 0 for å holde en registrering utenfor godkjenningen.','Use − and + or type the correct number of hours. Set 0 to leave an entry out of the approval.');
+  t('#sv-lname','Ditt navn','Your name');t('#sv-lrole','Stilling','Position');t('#sv-lcomp','Selskap','Company');
+  $('#s-name').placeholder=SV('Fullt navn','Full name');
+  t('#sv-go','Signer','Sign');t('#sv-hintc','Signaturfeltet åpnes i stor skjerm. Legg gjerne telefonen sidelengs.','The signature field opens full screen. Feel free to turn the phone sideways.');
+  t('#sv-done-h','Godkjent','Approved');t('#sv-finish','Ferdig','Done');
+  t('#ss-undo','Angre','Undo');t('#ss-clear','Tøm','Clear');t('#ss-back','Tilbake','Back');t('#sig-ph','Signer her med fingeren','Sign here with your finger');
+  document.documentElement.lang=svLang==='en'&&!$('#sv').hidden?'en':'no';
+  if(S.svMode)setSvMode(S.svMode);
+  if(!$('#sv').hidden&&!$('#sv-form').hidden){
+    if(S.svMode==='comp')fillCompInfo();
+    else{const rows=signRows();if(rows.length)$('#sv-emp').textContent=empLineL(S.profile.employer,clientsOf(rows)||S.profile.client,svLang);renderSvRows()}
+  }
+}
+$('#sv-lang').onclick=()=>{svLang=svLang==='en'?'no':'en';try{localStorage.setItem('capjet-svlang',svLang)}catch(e){}applySvLang()};
 function svShow(company){
+  applySvLang();
   const sups=knownSupervisors();
   $('#sv-sups').innerHTML=sups.map(([n,[r,c]])=>`<button type="button" class="chip" data-n="${esc(n)}" data-r="${esc(r)}" data-c="${esc(c)}">${esc(n)}</button>`).join('');
   $('#sv-sups').hidden=!sups.length;
@@ -1540,25 +1611,25 @@ function svShow(company){
 function svRows(){return signRows().map(r=>({...r,orig:r.hours,hours:S.adj?.has(r.id)?S.adj.get(r.id):r.hours}))}
 function approvedRows(){return svRows().filter(r=>r.hours>0)}
 function renderSvRows(){
-  const rows=svRows();
-  $('#sv-rows').innerHTML=`<table class="adjt"><thead><tr><th>Dato</th><th>Aktivitet</th><th class="r">Timer</th></tr></thead><tbody>${rows.map(r=>{
-    const chg=r.hours!==r.orig,note=[r.notes,detail(r)].filter(Boolean).join(' · ');
+  const rows=svRows(),l=svLang;
+  $('#sv-rows').innerHTML=`<table class="adjt"><thead><tr><th>${SV('Dato','Date')}</th><th>${SV('Aktivitet','Activity')}</th><th class="r">${SV('Timer','Hours')}</th></tr></thead><tbody>${rows.map(r=>{
+    const chg=r.hours!==r.orig,note=[r.notes,detailL(r,l)].filter(Boolean).join(' · ');
     return `<tr class="${chg?'chg':''}${r.hours===0?' off':''}" data-row="${esc(r.id)}"><td class="num" style="white-space:nowrap">${dmy(r.date).slice(0,5)}</td>
-      <td><span class="a">${esc(r.activity)}</span>${note?`<span class="sub">${esc(note)}</span>`:''}</td>
-      <td class="r"><span class="hstep"><button type="button" data-step="-0.5" aria-label="Trekk fra en halv time">−</button><input data-hrs="${esc(r.id)}" inputmode="decimal" value="${fmt2(r.hours)}" aria-label="Timer ${dmy(r.date)}"><button type="button" data-step="0.5" aria-label="Legg til en halv time">+</button></span>${chg?`<span class="was">${r.hours===0?'Ikke med':'Var '+fmt2(r.orig)+' t'}</span>`:''}</td></tr>`}).join('')}</tbody></table>`;
+      <td><span class="a">${esc(actL(r.activity,l))}</span>${note?`<span class="sub">${esc(note)}</span>`:''}</td>
+      <td class="r"><span class="hstep"><button type="button" data-step="-0.5" aria-label="${SV('Trekk fra en halv time','Subtract half an hour')}">−</button><input data-hrs="${esc(r.id)}" inputmode="decimal" value="${f2S(r.hours)}" aria-label="${SV('Timer','Hours')} ${dmy(r.date)}"><button type="button" data-step="0.5" aria-label="${SV('Legg til en halv time','Add half an hour')}">+</button></span>${chg?`<span class="was">${r.hours===0?SV('Ikke med','Excluded'):SV('Var ','Was ')+f2S(r.orig)+SV(' t',' h')}</span>`:''}</td></tr>`}).join('')}</tbody></table>`;
   svTotals();
 }
 function svTotals(){
   const rows=svRows(),ok=rows.filter(r=>r.hours>0),chg=rows.filter(r=>r.hours!==r.orig).length,tot=sum(ok);
-  $('#sv-tot').textContent=fmt2(tot)+' t';
-  $('#sv-cnt').textContent=`Kontroller timene (${ok.length} registreringer${chg?` · ${chg} justert`:''})`;
+  $('#sv-tot').textContent=f2S(tot)+SV(' t',' h');
+  $('#sv-cnt').textContent=SV(`Kontroller timene (${ok.length} registreringer${chg?` · ${chg} justert`:''})`,`Check the hours (${ok.length} ${ok.length===1?'entry':'entries'}${chg?` · ${chg} adjusted`:''})`);
 }
 function setAdj(id,v){
   const base=S.entries.get(id);if(!base)return false;
   v=Math.round(v*4)/4;
-  if(!(v>=0&&v<=24)){toast('Timer må være mellom 0 og 24','e');return false}
+  if(!(v>=0&&v<=24)){toast(SV('Timer må være mellom 0 og 24','Hours must be between 0 and 24'),'e');return false}
   const day=svRows().filter(r=>r.date===base.date&&r.id!==id).reduce((a,r)=>a+r.hours,0)+v;
-  if(day>24){toast(`Det blir ${fmt(day)} timer ${dmy(base.date)} – maks 24`,'e');return false}
+  if(day>24){toast(SV(`Det blir ${fmt(day)} timer ${dmy(base.date)} – maks 24`,`That makes ${f2S(day)} hours on ${dmy(base.date)} – max 24`),'e');return false}
   if(v===base.hours)S.adj.delete(id);else S.adj.set(id,v);return true;
 }
 $('#sv-rows').addEventListener('click',ev=>{
@@ -1568,11 +1639,11 @@ $('#sv-rows').addEventListener('click',ev=>{
 });
 $('#sv-rows').addEventListener('change',ev=>{
   const i=ev.target.closest('[data-hrs]');if(!i)return;const v=num(i.value);
-  if(isNaN(v)||!setAdj(i.dataset.hrs,v)){toast('Skriv timer som et tall, for eksempel 10,5','e')}
+  if(isNaN(v)||!setAdj(i.dataset.hrs,v)){toast(SV('Skriv timer som et tall, for eksempel 10,5','Enter hours as a number, e.g. 10.5'),'e')}
   renderSvRows();
 });
 $('#sv-rows').addEventListener('keydown',ev=>{if(ev.key==='Enter'&&ev.target.matches('[data-hrs]')){ev.preventDefault();ev.target.blur()}});
-function closeSV(){closeStage(false);$('#sv').hidden=true;document.documentElement.classList.remove('lock');releaseAwake()}
+function closeSV(){closeStage(false);$('#sv').hidden=true;document.documentElement.lang='no';document.documentElement.classList.remove('lock');releaseAwake()}
 $('#s-open').onclick=openSV;
 $('#sv-close').onclick=closeSV;
 $('#sv-finish').onclick=()=>{closeSV();renderReceipt();renderComp()};
@@ -1587,15 +1658,15 @@ $('#s-comp').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault
 async function openStage(){
   document.activeElement?.blur?.();
   const comp=S.svMode==='comp',rows=comp?[]:approvedRows();
-  if(!comp&&!rows.length)return sErr('Ingen timer å godkjenne. Alle registreringene står på 0.');
-  const sup=$('#s-name').value.trim();if(!sup)return sErr('Skriv fullt navn, eller trykk på navnet ditt over.','#s-name');
+  if(!comp&&!rows.length)return sErr(SV('Ingen timer å godkjenne. Alle registreringene står på 0.','No hours to approve. All entries are set to 0.'));
+  const sup=$('#s-name').value.trim();if(!sup)return sErr(SV('Skriv fullt navn, eller trykk på navnet ditt over.','Enter your full name, or tap your name above.'),'#s-name');
   document.activeElement?.blur?.();
   const role=[$('#s-role').value.trim(),$('#s-comp').value.trim()].filter(Boolean).join(', ');
   $('#ss-who').textContent=sup+(role?', '+role:'');
-  if(comp){const t=taskById(S.svComp.taskId);$('#ss-info').textContent=`Bekrefter «${t?.name||''}» – ${LV[S.svComp.level]} for ${S.profile.operator}`;$('#ss-go').textContent='Bekreft kompetanse'}
-  else{$('#ss-info').textContent=`Godkjenner ${fmt2(sum(rows))} t for ${S.profile.operator} · ${dmy(rows[0].date).slice(0,5)}–${dmy(rows[rows.length-1].date)}`;
-  $('#ss-go').textContent=`Godkjenn ${fmt2(sum(rows))} t`}
-  $('#ss-under').textContent=`${sup}${role?' · '+role:''} · ${new Date().toLocaleDateString('no-NO')}`;
+  if(comp){const t=taskById(S.svComp.taskId),nm=tx(t,'name',svLang),lv=lvL(S.svComp.level,svLang);$('#ss-info').textContent=SV(`Bekrefter «${nm}» – ${lv} for ${S.profile.operator}`,`Confirming “${nm}” – ${lv} for ${S.profile.operator}`);$('#ss-go').textContent=SV('Bekreft kompetanse','Confirm competence')}
+  else{const per=`${dmy(rows[0].date).slice(0,5)}–${dmy(rows[rows.length-1].date)}`;$('#ss-info').textContent=SV(`Godkjenner ${f2S(sum(rows))} t for ${S.profile.operator} · ${per}`,`Approving ${f2S(sum(rows))} h for ${S.profile.operator} · ${per}`);
+  $('#ss-go').textContent=SV(`Godkjenn ${f2S(sum(rows))} t`,`Approve ${f2S(sum(rows))} h`)}
+  $('#ss-under').textContent=`${sup}${role?' · '+role:''} · ${dmy(today())}`;
   $('#ss-err').hidden=true;
   $('#ss').hidden=false;applyRot();
   try{if(!document.fullscreenElement&&document.documentElement.requestFullscreen&&matchMedia('(pointer: coarse)').matches)await document.documentElement.requestFullscreen({navigationUI:'hide'})}catch(e){}
@@ -1616,8 +1687,8 @@ $('#ss-go').onclick=async()=>{
   if(S.svMode==='comp')return signComp();
   const rows=approvedRows(),all=svRows(),sup=$('#s-name').value.trim();
   const err=m=>{const el=$('#ss-err');el.textContent=m;el.hidden=false};
-  if(!rows.length||!sup){closeStage();return sErr('Sjekk navn og periode, og prøv igjen.')}
-  if(pad.strokes.flat().length<6||inkLength()<80)return err('Signaturen er for kort. Signer med fullt navn eller initialer i feltet.');
+  if(!rows.length||!sup){closeStage();return sErr(SV('Sjekk navn og periode, og prøv igjen.','Check the name and period, and try again.'))}
+  if(pad.strokes.flat().length<6||inkLength()<80)return err(SV('Signaturen er for kort. Signer med fullt navn eller initialer i feltet.','The signature is too short. Sign with your full name or initials in the field.'));
   const btn=$('#ss-go');btn.disabled=true;
   try{
     const sig=exportSig();
@@ -1631,12 +1702,12 @@ $('#ss-go').onclick=async()=>{
     await writeSignoff(s);
     S.lastSigned=s.id;pad.strokes=[];closeStage();try{navigator.vibrate?.(40)}catch(e){}
     const nAdj=rows.filter(r=>r.hours!==r.orig).length,nOut=all.length-rows.length;
-    const first=(S.profile.operator||'').split(' ')[0]||'operatøren';
-    const extra=[nAdj?`${nAdj} registrering${nAdj>1?'er':''} ble justert.`:'',nOut?`${nOut} ble holdt utenfor og er fortsatt åpen${nOut>1?'e':''}.`:''].filter(Boolean).join(' ');
-    $('#sv-done-txt').textContent=`${fmt2(s.total)} timer er godkjent og låst. ${extra?extra+' ':''}Takk, ${sup.split(' ')[0]}! Gi telefonen tilbake til ${first}.`;
+    const first=(S.profile.operator||'').split(' ')[0]||SV('operatøren','the operator');
+    const extra=SV([nAdj?`${nAdj} registrering${nAdj>1?'er':''} ble justert.`:'',nOut?`${nOut} ble holdt utenfor og er fortsatt åpen${nOut>1?'e':''}.`:''],[nAdj?`${nAdj} ${nAdj>1?'entries were':'entry was'} adjusted.`:'',nOut?`${nOut} ${nOut>1?'were':'was'} left out and remain${nOut>1?'':'s'} open.`:'']).filter(Boolean).join(' ');
+    $('#sv-done-txt').textContent=SV(`${f2S(s.total)} timer er godkjent og låst. ${extra?extra+' ':''}Takk, ${sup.split(' ')[0]}! Gi telefonen tilbake til ${first}.`,`${f2S(s.total)} hours are approved and locked. ${extra?extra+' ':''}Thank you, ${sup.split(' ')[0]}! Please hand the phone back to ${first}.`);
     $('#sv-done-sig').src=s.sig;
     $('#sv-form').hidden=true;$('#sv-foot').hidden=true;$('#sv-done').hidden=false;
-  }catch(e){err('Noe gikk galt under lagring. Prøv igjen.')}
+  }catch(e){err(SV('Noe gikk galt under lagring. Prøv igjen.','Something went wrong while saving. Please try again.'))}
   finally{btn.disabled=false}
 };
 function renderReceipt(){
@@ -1707,23 +1778,27 @@ $('#c-list').addEventListener('click',ev=>{
 function openCompSV(taskId,level){
   if(!S.profile.operator){toast('Legg inn ditt fulle navn under Rapporter → Profil først','e');return}
   const t=taskById(taskId);if(!t)return;
-  const o=taskStats().get(taskId);
   S.svComp={taskId,level};setSvMode('comp');
-  $('#sv-op').textContent=S.profile.operator;$('#sv-emp').textContent=empLine(S.profile.employer,S.profile.client,'');
-  $('#sv-per').textContent=t.name;$('#sv-tot').textContent=LV[level];
-  const atOrAbove=o?o.by.slice(level).reduce((a,b)=>a+b,0):0;
-  $('#sv-cinfo').innerHTML=`${t.desc?`<div><b>Oppgaven:</b> ${esc(t.desc)}</div>`:''}
-    <div class="cindep"><b>${LV[level]} betyr:</b> ${esc(lvText(t,level))}</div>
-    <div>${o?`Logget <b>${o.count}</b> gang${o.count===1?'':'er'} mellom ${dmy(o.first)} og ${dmy(o.last)}: ${[1,2,3,4].map(l=>`${LV[l].toLowerCase()} ${o.by[l]}`).join(' · ')}.`:'Oppgaven er ikke logget i loggboka ennå.'}</div>
-    ${atOrAbove?'':`<div class="warn">Ikke logget på nivået «${LV[level]}» ennå. Godkjenn bare hvis du selv har sett det.</div>`}
-    ${o?`<div class="scroll" style="border:1px solid var(--line);border-radius:4px;max-height:30vh"><table><thead><tr><th>Dato</th><th>Nivå</th><th>Kommentar</th></tr></thead><tbody>${o.hist.slice(0,8).map(x=>`<tr><td class="num" style="white-space:nowrap">${dmy(x.date)}</td><td>${LV[x.l]}</td><td>${esc(x.notes)||'–'}</td></tr>`).join('')}</tbody></table></div>`:''}`;
+  fillCompInfo();
   svShow(S.profile.client||'');
+}
+function fillCompInfo(){
+  const {taskId,level}=S.svComp||{},t=taskById(taskId);if(!t)return;
+  const l=svLang,o=taskStats().get(taskId),lv=n=>lvL(n,l);
+  $('#sv-op').textContent=S.profile.operator;$('#sv-emp').textContent=empLineL(S.profile.employer,S.profile.client,l);
+  $('#sv-per').textContent=tx(t,'name',l);$('#sv-tot').textContent=lv(level);
+  const atOrAbove=o?o.by.slice(level).reduce((a,b)=>a+b,0):0,desc=tx(t,'desc',l);
+  $('#sv-cinfo').innerHTML=`${desc?`<div><b>${SV('Oppgaven:','The task:')}</b> ${esc(desc)}</div>`:''}
+    <div class="cindep"><b>${lv(level)} ${SV('betyr:','means:')}</b> ${esc(lvTextL(t,level,l))}</div>
+    <div>${o?SV(`Logget <b>${o.count}</b> gang${o.count===1?'':'er'} mellom ${dmy(o.first)} og ${dmy(o.last)}: `,`Logged <b>${o.count}</b> time${o.count===1?'':'s'} between ${dmy(o.first)} and ${dmy(o.last)}: `)+[1,2,3,4].map(n=>`${lv(n).toLowerCase()} ${o.by[n]}`).join(' · ')+'.':SV('Oppgaven er ikke logget i loggboka ennå.','The task has not been logged yet.')}</div>
+    ${atOrAbove?'':`<div class="warn">${SV(`Ikke logget på nivået «${lv(level)}» ennå. Godkjenn bare hvis du selv har sett det.`,`Not logged at the level “${lv(level)}” yet. Only approve if you have seen it yourself.`)}</div>`}
+    ${o?`<div class="scroll" style="border:1px solid var(--line);border-radius:4px;max-height:30vh"><table><thead><tr><th>${SV('Dato','Date')}</th><th>${SV('Nivå','Level')}</th><th>${SV('Kommentar','Comments')}</th></tr></thead><tbody>${o.hist.slice(0,8).map(x=>`<tr><td class="num" style="white-space:nowrap">${dmy(x.date)}</td><td>${lv(x.l)}</td><td>${esc(x.notes)||'–'}</td></tr>`).join('')}</tbody></table></div>`:''}`;
 }
 async function signComp(){
   const sup=$('#s-name').value.trim(),err=m=>{const el=$('#ss-err');el.textContent=m;el.hidden=false};
   const {taskId,level}=S.svComp||{},t=taskById(taskId);
-  if(!t||!sup){closeStage();return sErr('Sjekk navnet og prøv igjen.')}
-  if(pad.strokes.flat().length<6||inkLength()<80)return err('Signaturen er for kort. Signer med fullt navn eller initialer i feltet.');
+  if(!t||!sup){closeStage();return sErr(SV('Sjekk navnet og prøv igjen.','Check the name and try again.'))}
+  if(pad.strokes.flat().length<6||inkLength()<80)return err(SV('Signaturen er for kort. Signer med fullt navn eller initialer i feltet.','The signature is too short. Sign with your full name or initials in the field.'));
   const btn=$('#ss-go');btn.disabled=true;
   try{
     const o=taskStats().get(taskId),sig=exportSig();
@@ -1733,11 +1808,11 @@ async function signComp(){
     c.hash=await sha(canon(compPayload(c)));
     await writeCompSign(c);
     pad.strokes=[];closeStage();try{navigator.vibrate?.(40)}catch(e){}
-    const first=(S.profile.operator||'').split(' ')[0]||'operatøren';
-    $('#sv-done-txt').textContent=`«${t.name}» er godkjent som ${LV[level].toLowerCase()}. Takk, ${sup.split(' ')[0]}! Gi telefonen tilbake til ${first}.`;
+    const first=(S.profile.operator||'').split(' ')[0]||SV('operatøren','the operator'),nm=tx(t,'name',svLang),lv=lvL(level,svLang).toLowerCase();
+    $('#sv-done-txt').textContent=SV(`«${nm}» er godkjent som ${lv}. Takk, ${sup.split(' ')[0]}! Gi telefonen tilbake til ${first}.`,`“${nm}” is approved as ${lv}. Thank you, ${sup.split(' ')[0]}! Please hand the phone back to ${first}.`);
     $('#sv-done-sig').src=c.sig;
     $('#sv-form').hidden=true;$('#sv-foot').hidden=true;$('#sv-done').hidden=false;
-  }catch(e){err('Noe gikk galt under lagring. Prøv igjen.')}
+  }catch(e){err(SV('Noe gikk galt under lagring. Prøv igjen.','Something went wrong while saving. Please try again.'))}
   finally{btn.disabled=false}
 }
 
@@ -1819,7 +1894,7 @@ $('#r-list').addEventListener('click',ev=>{
 });
 document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-pdf]');if(!b)return;const s=S.signoffs.get(b.dataset.pdf);if(!s)return;b.disabled=true;try{await download(`CapJet-timer_${s.from}_${s.to}.pdf`,await pdfSignoff(s))}catch(e){toast('Klarte ikke å lage PDF. Sjekk nettforbindelsen og prøv igjen.','e')}finally{b.disabled=false}});
 
-$('#p').addEventListener('submit',async ev=>{ev.preventDefault();S.profile={operator:$('#p-name').value.trim(),employer:$('#p-emp').value.trim(),client:$('#p-client').value.trim(),vessel:$('#p-vessel').value.trim(),equipment:$('#p-equip').value.trim()};if(!$('#f-client').value)$('#f-client').value=S.profile.client;S.pending.p=true;await persist();toast('Profilen er lagret')});
+$('#p').addEventListener('submit',async ev=>{ev.preventDefault();S.profile={...S.profile,operator:$('#p-name').value.trim(),employer:$('#p-emp').value.trim(),client:$('#p-client').value.trim(),vessel:$('#p-vessel').value.trim(),equipment:$('#p-equip').value.trim()};if(!$('#f-client').value)$('#f-client').value=S.profile.client;S.pending.p=true;await persist();toast('Profilen er lagret')});
 function renderProfile(){if(document.activeElement?.closest('#p'))return;$('#p-name').value=S.profile.operator||'';$('#p-emp').value=S.profile.employer||'';$('#p-client').value=S.profile.client||'';$('#p-vessel').value=S.profile.vessel||'';$('#p-equip').value=S.profile.equipment||''}
 
 /* ---------- eksport ---------- */
@@ -1862,19 +1937,33 @@ $('#imp').addEventListener('change',async ev=>{
   }catch(e){toast('Filen kunne ikke leses. Velg en JSON-sikkerhetskopi fra loggboka.','e')}
 });
 
+/* ---------- rapportspråk ---------- */
+function renderLangUI(){
+  const l=repLang();
+  document.querySelectorAll('[data-rl]').forEach(b=>{b.classList.toggle('on',b.dataset.rl===l);b.setAttribute('aria-pressed',b.dataset.rl===l)});
+  $('#c-pdf').textContent=isEn(l)?'PDF (English): Competence and experience':'PDF: Kompetanse og erfaring';
+  $('#x-pdf').textContent=isEn(l)?'Hele loggen (PDF, English)':'Hele loggen (PDF)';
+}
+document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-rl]');if(!b)return;const v=b.dataset.rl==='en'?'en':'no';if(repLang()===v)return;
+  S.profile={...S.profile,reportLang:v};S.pending.p=true;await persist();toast(v==='en'?'PDF-rapportene lages nå på engelsk':'PDF-rapportene lages nå på norsk')});
+
 /* ---------- PDF ---------- */
 let jsp=null;
 function loadPdf(){return window.jspdf?Promise.resolve(window.jspdf.jsPDF):Promise.reject(new Error("pdf"))}
 const M=25,PW=172;
+const TR=(no,en)=>PL==='en'?en:no;
+const U=()=>TR('t','h');
+const withLang=fn=>async(...a)=>{const J=await loadPdf();PL=repLang();try{return fn(J,...a)}finally{PL=null}};
+const listP=(arr,f)=>arr.length?arr.map(([k,v])=>`${f?f(k):k} (${fmt(v)} ${U()})`).join(', '):'-';
 function pdfHead(doc,title,lines){
   doc.setFillColor(19,41,75);doc.rect(0,0,210,24,'F');doc.setFillColor(255,255,255);
   doc.setTextColor(255);doc.setFont('helvetica','bold');doc.setFontSize(14);doc.text(title,M,15);
-  doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text('CapJet Loggbok',M+PW,15,{align:'right'});
+  doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text(TR('CapJet Loggbok','CapJet Logbook'),M+PW,15,{align:'right'});
   doc.setTextColor(29,39,51);doc.setFontSize(9.5);
   let y=33;lines.forEach(([k,v])=>{doc.setFont('helvetica','bold');doc.text(k,M,y);doc.setFont('helvetica','normal');doc.text(String(v||'-'),M+30,y);y+=5});
   return y+3;
 }
-function pdfTable(doc,cols,rows,y,run){
+function pdfTable(doc,cols,rows,y){
   cols=cols.map(c=>({...c,w:c.w*PW/182}));
   doc.setFontSize(8);doc.setLineHeightFactor(1.3);const lh=8*1.3*.3528;
   const head=()=>{doc.setFillColor(242,244,247);doc.rect(M,y,PW,7,'F');doc.setDrawColor(217,222,229);doc.line(M,y+7,M+PW,y+7);doc.setTextColor(102,113,126);doc.setFont('helvetica','bold');let x=M;cols.forEach(c=>{doc.text(c.h,c.r?x+c.w-1.5:x+1.5,y+4.7,{align:c.r?'right':'left'});x+=c.w});y+=7;doc.setTextColor(29,39,51);doc.setFont('helvetica','normal')};
@@ -1891,100 +1980,103 @@ function pdfTable(doc,cols,rows,y,run){
 function pdfTotals(doc,rows,y){
   const by={};rows.forEach(r=>by[r.activity]=(by[r.activity]||0)+Number(r.hours));
   if(y>255){doc.addPage();y=18}
-  y+=6;doc.setFontSize(10);doc.setFont('helvetica','bold');doc.text(`Sum: ${fmt2(sum(rows))} timer`,M,y);
+  y+=6;doc.setFontSize(10);doc.setFont('helvetica','bold');doc.text(`${TR('Sum','Total')}: ${fmt2(sum(rows))} ${TR('timer','hours')}`,M,y);
   doc.setFont('helvetica','normal');doc.setFontSize(8.5);y+=5;
-  doc.text(`Kjøretid (aktiv kjøring + under veiledning): ${fmt2(sum(rows.filter(r=>DRIVE.has(r.activity))))} t`,M,y);y+=4.5;
-  doc.text(ACTS.filter(a=>by[a]).map(a=>`${a}: ${fmt(by[a])} t`).join('   ·   '),M,y,{maxWidth:PW});
+  doc.text(`${TR('Kjøretid (aktiv kjøring + under veiledning)','Operating time (hands-on + under guidance)')}: ${fmt2(sum(rows.filter(r=>DRIVE.has(r.activity))))} ${U()}`,M,y);y+=4.5;
+  doc.text(ACTS.filter(a=>by[a]).map(a=>`${actL(a,PL)}: ${fmt(by[a])} ${U()}`).join('   ·   '),M,y,{maxWidth:PW});
   return y+8;
 }
-function pdfFooter(doc,left,run){const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(110,120,132);doc.text(left,M,290);doc.text(`Side ${i} av ${n}`,M+PW,290,{align:'right'});if(i>1&&run){doc.text(run,M,10);doc.setDrawColor(217,222,229);doc.line(M,12,M+PW,12)}}}
-const rowCells=r=>{const o=r.orig??r.origHours;return[dmy(r.date),r.vessel,r.project,r.equipment,r.activity,fmt2(r.hours)+(o!=null?' *':''),[r.notes,detail(r),Object.keys(r.tasks||{}).length?'Oppgaver: '+taskSummary(r):'',o!=null?`Justert av supervisor fra ${fmt2(o)} t`:''].filter(Boolean).join(' - ')]};
-async function pdfSignoff(s){
-  const J=await loadPdf();const doc=new J({unit:'mm',format:'a4'});
-  let y=pdfHead(doc,'Godkjent timeliste',[['Operatør',s.operator],['Arbeidsgiver',s.employer],['Innleid til',s.client||clientsOf(s.rows)],['Periode',`${dmy(s.from)} - ${dmy(s.to)}`],['Rapport-ID',code(s.hash)]]);
+function pdfFooter(doc,left,run){const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(110,120,132);doc.text(left,M,290);doc.text(`${TR('Side','Page')} ${i} ${TR('av','of')} ${n}`,M+PW,290,{align:'right'});if(i>1&&run){doc.text(run,M,10);doc.setDrawColor(217,222,229);doc.line(M,12,M+PW,12)}}}
+const rowCells=r=>{const o=r.orig??r.origHours;return[dmy(r.date),r.vessel,r.project,r.equipment,actL(r.activity,PL),fmt2(r.hours)+(o!=null?' *':''),[r.notes,detailL(r,PL),Object.keys(r.tasks||{}).length?TR('Oppgaver: ','Tasks: ')+taskSummaryL(r,PL):'',o!=null?TR(`Justert av supervisor fra ${fmt2(o)} t`,`Adjusted by supervisor from ${fmt2(o)} h`):''].filter(Boolean).join(' - ')]};
+const baseCols=()=>[{h:TR('Dato','Date'),w:18},{h:TR('Fartøy','Vessel'),w:24},{h:TR('Prosjekt','Project'),w:22},{h:TR('Utstyr','Equipment'),w:20},{h:TR('Aktivitet','Activity'),w:32},{h:TR('Timer','Hours'),w:13,r:1},{h:TR('Kommentar','Comments'),w:53}];
+const headLines=(op,emp,cli)=>[[TR('Operatør','Operator'),op],[TR('Arbeidsgiver','Employer'),emp],[TR('Innleid til','Contracted to'),cli]];
+const pdfSignoff=withLang((J,s)=>{
+  const doc=new J({unit:'mm',format:'a4'});
+  let y=pdfHead(doc,TR('Godkjent timeliste','Approved timesheet'),[...headLines(s.operator,s.employer,s.client||clientsOf(s.rows)),[TR('Periode','Period'),`${dmy(s.from)} - ${dmy(s.to)}`],[TR('Rapport-ID','Report ID'),code(s.hash)]]);
   const rows=[...s.rows].sort(byDate);
-  y=pdfTable(doc,[{h:'Dato',w:18},{h:'Fartøy',w:24},{h:'Prosjekt',w:22},{h:'Utstyr',w:20},{h:'Aktivitet',w:32},{h:'Timer',w:13,r:1},{h:'Kommentar',w:53}],rows.map(rowCells),y);
+  y=pdfTable(doc,baseCols(),rows.map(rowCells),y);
   y=pdfTotals(doc,rows,y);
   if(y>205){doc.addPage();y=20}
   doc.setDrawColor(217,222,229);doc.setLineWidth(.3);doc.rect(M,y,PW,74);
-  doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text('Godkjenning',M+5,y+7);
+  doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text(TR('Godkjenning','Approval'),M+5,y+7);
   doc.setFont('helvetica','normal');doc.setFontSize(8.5);
-  doc.text('Jeg bekrefter som supervisor å ha kontrollert timene over, og at de etter min kjennskap gir et riktig bilde av arbeidet som er utført. Signaturen bekrefter kontroll av loggen og er ikke i seg selv en kompetansesertifisering.',M+5,y+13,{maxWidth:PW-10});
+  doc.text(TR('Jeg bekrefter som supervisor å ha kontrollert timene over, og at de etter min kjennskap gir et riktig bilde av arbeidet som er utført. Signaturen bekrefter kontroll av loggen og er ikke i seg selv en kompetansesertifisering.','As supervisor I confirm that I have checked the hours above, and that to the best of my knowledge they give a correct picture of the work performed. The signature confirms review of the log and is not in itself a competence certification.'),M+5,y+13,{maxWidth:PW-10});
   const nAdj=s.rows.filter(r=>r.orig!=null).length;
-  if(nAdj){doc.setTextColor(135,88,0);doc.text(`Supervisor har justert ${nAdj} registrering${nAdj>1?'er':''} før godkjenning (merket * i tabellen).`,M+5,y+24);doc.setTextColor(29,39,51)}
+  if(nAdj){doc.setTextColor(135,88,0);doc.text(TR(`Supervisor har justert ${nAdj} registrering${nAdj>1?'er':''} før godkjenning (merket * i tabellen).`,`The supervisor adjusted ${nAdj} ${nAdj>1?'entries':'entry'} before approval (marked * in the table).`),M+5,y+24);doc.setTextColor(29,39,51)}
   const iy=y+28;
   if(s.sig){const k=Math.min(70/s.sigW,26/s.sigH);doc.addImage(s.sig,'PNG',M+5,iy+28-s.sigH*k,s.sigW*k,s.sigH*k,undefined,'FAST')}
   doc.setDrawColor(150,160,170);doc.setLineWidth(.2);doc.line(M+5,iy+30,M+85,iy+30);
   doc.setFontSize(9);doc.setFont('helvetica','bold');doc.text(s.supervisor,M+5,iy+35);
   doc.setFont('helvetica','normal');doc.text(supLine(s),M+5,iy+40);
-  const d=new Date(s.signedAt);
-  doc.text(`Godkjent: ${d.toLocaleDateString('no-NO')} kl. ${d.toLocaleTimeString('no-NO',{hour:'2-digit',minute:'2-digit'})}`,M+100,iy+35);
-  doc.text(`Verifikasjonskode: ${code(s.hash)}`,M+100,iy+40);
-  if(s.voided){doc.setTextColor(179,38,30);doc.setFont('helvetica','bold');doc.text('TRUKKET TILBAKE',M+100,iy+8)}
-  pdfFooter(doc,`${s.operator} · kode ${code(s.hash)}`,`Godkjent timeliste · ${s.operator} · ${dmy(s.from)} - ${dmy(s.to)}`);
+  doc.text(TR(`Godkjent: ${ldate(s.signedAt)} kl. ${ltime(s.signedAt)}`,`Approved: ${ldate(s.signedAt)} at ${ltime(s.signedAt)}`),M+100,iy+35);
+  doc.text(`${TR('Verifikasjonskode','Verification code')}: ${code(s.hash)}`,M+100,iy+40);
+  if(s.voided){doc.setTextColor(179,38,30);doc.setFont('helvetica','bold');doc.text(TR('TRUKKET TILBAKE','WITHDRAWN'),M+100,iy+8)}
+  pdfFooter(doc,`${s.operator} · ${TR('kode','code')} ${code(s.hash)}`,`${TR('Godkjent timeliste','Approved timesheet')} · ${s.operator} · ${dmy(s.from)} - ${dmy(s.to)}`);
   return doc.output('blob');
-}
-async function pdfFull(){
-  const J=await loadPdf();const doc=new J({unit:'mm',format:'a4'});
+});
+const pdfFull=withLang(J=>{
+  const doc=new J({unit:'mm',format:'a4'});
   const lk=lockMap(),rows=[...S.entries.values()].sort(byDate);
   const sigs=[...S.signoffs.values()].filter(s=>!s.voided).sort((a,b)=>a.from.localeCompare(b.from));
-  const ref=new Map(sigs.map((s,i)=>[s.id,'G'+(i+1)]));
-  let y=pdfHead(doc,'Timelogg - komplett',[['Operatør',S.profile.operator],['Arbeidsgiver',S.profile.employer],['Innleid til',clientsOf(rows)||S.profile.client],['Periode',rows.length?`${dmy(rows[0].date)} - ${dmy(rows[rows.length-1].date)}`:'-'],['Generert',new Date().toLocaleDateString('no-NO')]]);
-  y=pdfTable(doc,[{h:'Dato',w:18},{h:'Fartøy',w:23},{h:'Prosjekt',w:21},{h:'Utstyr',w:18},{h:'Aktivitet',w:30},{h:'Timer',w:12,r:1},{h:'Kommentar',w:48},{h:'Godkj.',w:12}],
-    rows.map(r=>[...rowCells(r),lk.has(r.id)?ref.get(lk.get(r.id).id):'-']),y);
+  const ref=new Map(sigs.map((s,i)=>[s.id,TR('G','A')+(i+1)]));
+  let y=pdfHead(doc,TR('Timelogg - komplett','Complete hour log'),[...headLines(S.profile.operator,S.profile.employer,clientsOf(rows)||S.profile.client),[TR('Periode','Period'),rows.length?`${dmy(rows[0].date)} - ${dmy(rows[rows.length-1].date)}`:'-'],[TR('Generert','Generated'),dmy(today())]]);
+  const cols=baseCols();cols[1].w=23;cols[2].w=21;cols[3].w=18;cols[4].w=30;cols[5].w=12;cols[6].w=48;cols.push({h:TR('Godkj.','Appr.'),w:12});
+  y=pdfTable(doc,cols,rows.map(r=>[...rowCells(r),lk.has(r.id)?ref.get(lk.get(r.id).id):'-']),y);
   y=pdfTotals(doc,rows,y);
-  doc.setFontSize(8.5);doc.text(`Godkjent av supervisor: ${fmt2(sum(rows.filter(r=>lk.has(r.id))))} t av ${fmt2(sum(rows))} t`,M,y-3);
+  doc.setFontSize(8.5);doc.text(TR(`Godkjent av supervisor: ${fmt2(sum(rows.filter(r=>lk.has(r.id))))} t av ${fmt2(sum(rows))} t`,`Approved by supervisor: ${fmt2(sum(rows.filter(r=>lk.has(r.id))))} h of ${fmt2(sum(rows))} h`),M,y-3);
   if(sigs.length){
     if(y>240){doc.addPage();y=20}
-    y+=4;doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text('Godkjenninger',M,y);y+=4;
+    y+=4;doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text(TR('Godkjenninger','Approvals'),M,y);y+=4;
     for(const s of sigs){
       if(y+26>280){doc.addPage();y=20}
       doc.setDrawColor(217,222,229);doc.line(M,y,M+PW,y);
-      doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(`${ref.get(s.id)}  ${dmy(s.from)} - ${dmy(s.to)}  ·  ${fmt2(s.total)} t`,M,y+6);
+      doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(`${ref.get(s.id)}  ${dmy(s.from)} - ${dmy(s.to)}  ·  ${fmt2(s.total)} ${U()}`,M,y+6);
       doc.setFont('helvetica','normal');doc.setFontSize(8.5);
-      doc.text(`${s.supervisor}${supLine(s)?', '+supLine(s):''}  ·  ${new Date(s.signedAt).toLocaleDateString('no-NO')}  ·  kode ${code(s.hash)}`,M,y+11);
+      doc.text(`${s.supervisor}${supLine(s)?', '+supLine(s):''}  ·  ${ldate(s.signedAt)}  ·  ${TR('kode','code')} ${code(s.hash)}`,M,y+11);
       if(s.sig){const k=Math.min(48/s.sigW,16/s.sigH);doc.addImage(s.sig,'PNG',M+PW-s.sigW*k,y+2,s.sigW*k,s.sigH*k,undefined,'FAST')}
       y+=22;
     }
   }
-  pdfFooter(doc,`CapJet Loggbok · ${S.profile.operator||''}`,`Timelogg · ${S.profile.operator||''}`);
+  pdfFooter(doc,`${TR('CapJet Loggbok','CapJet Logbook')} · ${S.profile.operator||''}`,`${TR('Timelogg','Hour log')} · ${S.profile.operator||''}`);
   return doc.output('blob');
-}
-
-
+});
 function pdfSec(doc,title,y){if(y>258){doc.addPage();y=20}doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(29,39,51);doc.text(title,M,y);doc.setDrawColor(217,222,229);doc.line(M,y+2,M+PW,y+2);return y+8}
-async function pdfComp(){
-  const J=await loadPdf();const doc=new J({unit:'mm',format:'a4'});const x=experience();
-  let y=pdfHead(doc,'Kompetanse og erfaring',[['Operatør',S.profile.operator],['Arbeidsgiver',S.profile.employer],['Innleid til',listH(x.clients).replace(/ \([^)]*\)/g,'')||S.profile.client],['Periode',x.first?`${dmy(x.first)} - ${dmy(x.last)}`:'-'],['Generert',new Date().toLocaleDateString('no-NO')]]);
-  y=pdfSec(doc,'Erfaring',y);
-  const kv=[['Timer totalt',`${fmt2(x.total)} t over ${x.days} vakter (${fmt2(x.signed)} t godkjent av supervisor)`],['Kjøretid',`${fmt2(x.drive)} t (aktiv kjøring + under veiledning)`],['Aktiviteter',listH(x.acts)],['Fartøy',listH(x.vessels)],['Prosjekter',listH(x.projects)],['Utstyr',listH(x.equip)],['Jordtyper',listH(x.soils)],['Største dybder',[x.maxWD!=null?`vann ${fmt(x.maxWD)} m`:'',x.maxBD!=null?`graving ${fmt(x.maxBD)} m`:''].filter(Boolean).join(', ')||'-']];
+const pdfComp=withLang(J=>{
+  const doc=new J({unit:'mm',format:'a4'});const x=experience(),l=PL;
+  let y=pdfHead(doc,TR('Kompetanse og erfaring','Competence and experience'),[...headLines(S.profile.operator,S.profile.employer,x.clients.map(c=>c[0]).join(', ')||S.profile.client),[TR('Periode','Period'),x.first?`${dmy(x.first)} - ${dmy(x.last)}`:'-'],[TR('Generert','Generated'),dmy(today())]]);
+  y=pdfSec(doc,TR('Erfaring','Experience'),y);
+  const depths=[x.maxWD!=null?TR(`vann ${fmt(x.maxWD)} m`,`water ${fmt(x.maxWD)} m`):'',x.maxBD!=null?TR(`graving ${fmt(x.maxBD)} m`,`burial ${fmt(x.maxBD)} m`):''].filter(Boolean).join(', ')||'-';
+  const kv=[[TR('Timer totalt','Total hours'),TR(`${fmt2(x.total)} t over ${x.days} vakter (${fmt2(x.signed)} t godkjent av supervisor)`,`${fmt2(x.total)} h over ${x.days} shifts (${fmt2(x.signed)} h approved by supervisor)`)],
+    [TR('Kjøretid','Operating time'),TR(`${fmt2(x.drive)} t (aktiv kjøring + under veiledning)`,`${fmt2(x.drive)} h (hands-on + under guidance)`)],
+    [TR('Aktiviteter','Activities'),listP(x.acts,a=>actL(a,l))],[TR('Fartøy','Vessels'),listP(x.vessels)],[TR('Prosjekter','Projects'),listP(x.projects)],[TR('Utstyr','Equipment'),listP(x.equip)],[TR('Jordtyper','Soil types'),listP(x.soils,v=>soilL(v,l))],[TR('Største dybder','Max depths'),depths]];
   doc.setFontSize(9);
   for(const [k,v] of kv){const lines=doc.splitTextToSize(v.replace(/–/g,'-'),PW-38);if(y+lines.length*4.2>280){doc.addPage();y=20}doc.setFont('helvetica','bold');doc.text(k,M,y);doc.setFont('helvetica','normal');doc.text(lines,M+38,y);y+=lines.length*4.2+1.8}
-  y+=4;y=pdfSec(doc,'Kompetanseoppgaver',y);
+  y+=4;y=pdfSec(doc,TR('Kompetanseoppgaver','Competence tasks'),y);
   const st=taskStats(),sm=compSignMap(),tasks=shownTasks(st);
   const rows=[];for(const [cat,list] of groupByCat(tasks))for(const t of list){const o=st.get(t.id),sg=sm.get(t.id),ms=maxSigned(sg),c=ms?sg[ms]:null;
-    rows.push([t.name,cat,o?String(o.count):'0',o?LV[o.max]:'-',ms?LV[ms]:'-',c?`${c.supervisor}, ${new Date(c.signedAt).toLocaleDateString('no-NO')}`:'-'])}
-  y=pdfTable(doc,[{h:'Oppgave',w:52},{h:'Kategori',w:28},{h:'Logget',w:13,r:1},{h:'Høyeste logget',w:25},{h:'Godkjent nivå',w:25},{h:'Godkjent av',w:39}],rows,y);
+    rows.push([tx(t,'name',l),catL(cat,l),o?String(o.count):'0',o?lvL(o.max,l):'-',ms?lvL(ms,l):'-',c?`${c.supervisor}, ${ldate(c.signedAt)}`:'-'])}
+  y=pdfTable(doc,[{h:TR('Oppgave','Task'),w:52},{h:TR('Kategori','Category'),w:28},{h:TR('Logget','Logged'),w:13,r:1},{h:TR('Høyeste logget','Highest logged'),w:25},{h:TR('Godkjent nivå','Approved level'),w:25},{h:TR('Godkjent av','Approved by'),w:39}],rows,y);
   const cs=[...S.compsigns.values()].filter(c=>!c.voided).sort((a,b)=>a.signedAt.localeCompare(b.signedAt));
   if(cs.length){
-    y+=8;y=pdfSec(doc,'Supervisor-godkjenninger',y);
+    y+=8;y=pdfSec(doc,TR('Supervisor-godkjenninger','Supervisor sign-offs'),y);
     for(const c of cs){
       if(y+22>280){doc.addPage();y=20}
-      doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(`${c.taskName}: ${LV[c.level]}`,M,y+4,{maxWidth:PW-55});
+      doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(`${taskNameL(c.taskId,c.taskName,l)}: ${lvL(c.level,l)}`,M,y+4,{maxWidth:PW-55});
       doc.setFont('helvetica','normal');doc.setFontSize(8.5);
       doc.text(`${c.supervisor}${supLine(c)?', '+supLine(c):''}`,M,y+9,{maxWidth:PW-55});
-      doc.text(`${new Date(c.signedAt).toLocaleDateString('no-NO')} · logget ${c.count} ganger før godkjenning · kode ${code(c.hash)}`,M,y+13.5,{maxWidth:PW-55});
+      doc.text(TR(`${ldate(c.signedAt)} · logget ${c.count} ganger før godkjenning · kode ${code(c.hash)}`,`${ldate(c.signedAt)} · logged ${c.count} times before sign-off · code ${code(c.hash)}`),M,y+13.5,{maxWidth:PW-55});
       if(c.sig){const k=Math.min(48/c.sigW,15/c.sigH);doc.addImage(c.sig,'PNG',M+PW-c.sigW*k,y+1,c.sigW*k,c.sigH*k,undefined,'FAST')}
       doc.setDrawColor(236,239,243);doc.line(M,y+17,M+PW,y+17);y+=20;
     }
   }
   const withDesc=tasks.filter(t=>t.desc||t.sel);
   if(withDesc.length){
-    y+=8;y=pdfSec(doc,'Oppgavebeskrivelser',y);
+    y+=8;y=pdfSec(doc,TR('Oppgavebeskrivelser','Task descriptions'),y);
     for(const t of withDesc){
-      doc.setFontSize(8.5);const dl=doc.splitTextToSize(t.desc||'',PW),sl=t.sel?doc.splitTextToSize('Selvstendig når: '+t.sel,PW):[];
+      const d=tx(t,'desc',l),se=tx(t,'sel',l);
+      doc.setFontSize(8.5);const dl=doc.splitTextToSize(d||'',PW),sl=se?doc.splitTextToSize(TR('Selvstendig når: ','Independent when: ')+se,PW):[];
       const hh=4.5+(dl.length+sl.length)*3.8+3;if(y+hh>280){doc.addPage();y=20}
-      doc.setFont('helvetica','bold');doc.setTextColor(29,39,51);doc.text(t.name,M,y);y+=4.2;
+      doc.setFont('helvetica','bold');doc.setTextColor(29,39,51);doc.text(tx(t,'name',l),M,y);y+=4.2;
       doc.setFont('helvetica','normal');doc.setTextColor(60,70,82);if(dl.length){doc.text(dl,M,y);y+=dl.length*3.8}
       if(sl.length){doc.setTextColor(29,122,69);doc.text(sl,M,y);y+=sl.length*3.8}
       y+=3;
@@ -1993,10 +2085,11 @@ async function pdfComp(){
   }
   if(y>250){doc.addPage();y=20}
   y+=6;doc.setFontSize(7.5);doc.setTextColor(102,113,126);
-  doc.text('Nivåer: Observert = har sett oppgaven utført. Med hjelp = utført med aktiv hjelp. Under tilsyn = utført selv med operatør eller supervisor til stede. Selvstendig = utført uten hjelp. En godkjenning er supervisors vurdering på signeringstidspunktet og er ikke i seg selv en formell sertifisering. Timer og oppgaver er registrert av operatøren selv.',M,y,{maxWidth:PW});
-  pdfFooter(doc,`CapJet Loggbok · ${S.profile.operator||''}`,`Kompetanse og erfaring · ${S.profile.operator||''}`);
+  doc.text(TR('Nivåer: Observert = har sett oppgaven utført. Med hjelp = utført med aktiv hjelp. Under tilsyn = utført selv med operatør eller supervisor til stede. Selvstendig = utført uten hjelp. En godkjenning er supervisors vurdering på signeringstidspunktet og er ikke i seg selv en formell sertifisering. Timer og oppgaver er registrert av operatøren selv.',
+    "Levels: Observed = has seen the task performed. Assisted = performed with active help. Supervised = performed alone with an operator or supervisor present. Independent = performed without help. A sign-off is the supervisor's assessment at the time of signing and is not in itself a formal certification. Hours and tasks are recorded by the operator."),M,y,{maxWidth:PW});
+  pdfFooter(doc,`${TR('CapJet Loggbok','CapJet Logbook')} · ${S.profile.operator||''}`,`${TR('Kompetanse og erfaring','Competence and experience')} · ${S.profile.operator||''}`);
   return doc.output('blob');
-}
+});
 
 /* ---------- routing & oppstart ---------- */
 const VIEWS=['logg','signer','kompetanse','rapporter'];
@@ -2007,7 +2100,7 @@ function route(){
   if(v==='signer'){if(!$('#s-from').value)defaultPeriod();renderSigner();requestAnimationFrame(sizePad)}
 }
 addEventListener('hashchange',()=>{route();scrollTo(0,0)});
-function render(){renderStats();renderLists();renderWeek();renderSigner();renderReports();renderProfile();renderReceipt();renderComp();renderSync()}
+function render(){renderLangUI();renderStats();renderLists();renderWeek();renderSigner();renderReports();renderProfile();renderReceipt();renderComp();renderSync()}
 
 loadCache();resetForm();prefill();render();route();
 $('#su').addEventListener('submit',ev=>{
